@@ -1,0 +1,934 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:open-story:data",
+  "definitions": {
+    "node_input": {
+      "type": "object",
+      "properties": {
+        "node_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "node_type": {
+          "enum": [
+            "root",
+            "scene"
+          ]
+        },
+        "state": {
+          "enum": [
+            "creating",
+            "updating",
+            "active",
+            "cancelled"
+          ]
+        },
+        "predecessor_node_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "narrative_event_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "summary_event_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      },
+      "required": [
+        "node_id",
+        "node_type",
+        "state",
+        "predecessor_node_id",
+        "narrative_event_id",
+        "summary_event_id"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "node_type": {
+                "const": "root"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "predecessor_node_id": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "node_type": {
+                "const": "scene"
+              },
+              "state": {
+                "const": "active"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "predecessor_node_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "narrative_event_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "summary_event_id": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "node": {
+      "type": "object",
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "node_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "node_type": {
+          "enum": [
+            "root",
+            "scene"
+          ]
+        },
+        "state": {
+          "enum": [
+            "creating",
+            "updating",
+            "active",
+            "cancelled"
+          ]
+        },
+        "predecessor_node_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "narrative_event_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "summary_event_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "created_time": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modified_time": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "seq",
+        "node_id",
+        "node_type",
+        "state",
+        "predecessor_node_id",
+        "narrative_event_id",
+        "summary_event_id",
+        "created_time",
+        "modified_time"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "node_type": {
+                "const": "root"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "predecessor_node_id": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "node_type": {
+                "const": "scene"
+              },
+              "state": {
+                "const": "active"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "predecessor_node_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "narrative_event_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "summary_event_id": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "object_input": {
+      "type": "object",
+      "properties": {
+        "object_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "object_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "object_key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "object_id",
+        "object_type",
+        "object_key",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "object": {
+      "type": "object",
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "object_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "object_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "object_key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string"
+        },
+        "created_time": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modified_time": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "seq",
+        "object_id",
+        "object_type",
+        "object_key",
+        "name",
+        "created_time",
+        "modified_time"
+      ],
+      "additionalProperties": false
+    },
+    "event_input": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_action": {
+          "enum": [
+            "append",
+            "replace",
+            "cancel",
+            "summarize"
+          ],
+          "default": "append",
+          "description": "记录处理枚举；数据层只存取和校验值，内容归约和摘要行为由workflow定义。"
+        },
+        "content": {},
+        "state": {
+          "enum": [
+            "active",
+            "cancelled"
+          ]
+        }
+      },
+      "required": [
+        "event_id",
+        "event_type",
+        "type_name",
+        "event_action",
+        "content",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "event": {
+      "type": "object",
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_action": {
+          "enum": [
+            "append",
+            "replace",
+            "cancel",
+            "summarize"
+          ],
+          "default": "append",
+          "description": "记录处理枚举；数据层只存取和校验值，内容归约和摘要行为由workflow定义。"
+        },
+        "content": {},
+        "state": {
+          "enum": [
+            "active",
+            "cancelled"
+          ]
+        },
+        "created_time": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modified_time": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "seq",
+        "event_id",
+        "event_type",
+        "type_name",
+        "event_action",
+        "content",
+        "state",
+        "created_time",
+        "modified_time"
+      ],
+      "additionalProperties": false
+    },
+    "relation_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "relation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "relation_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "key_type": {
+          "enum": [
+            "node",
+            "object",
+            "event"
+          ]
+        },
+        "key_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "enum": [
+            "active",
+            "cancelled"
+          ]
+        },
+        "target_node_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "target_event_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "target_object_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      },
+      "required": [
+        "relation_id",
+        "relation_type",
+        "key_type",
+        "key_id",
+        "state",
+        "target_node_id",
+        "target_event_id",
+        "target_object_id"
+      ],
+      "anyOf": [
+        {
+          "properties": {
+            "target_node_id": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "target_event_id": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "target_object_id": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "relation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "relation_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "key_type": {
+          "enum": [
+            "node",
+            "object",
+            "event"
+          ]
+        },
+        "key_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "enum": [
+            "active",
+            "cancelled"
+          ]
+        },
+        "target_node_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "target_event_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "target_object_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "created_time": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modified_time": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "seq",
+        "relation_id",
+        "relation_type",
+        "key_type",
+        "key_id",
+        "state",
+        "target_node_id",
+        "target_event_id",
+        "target_object_id",
+        "created_time",
+        "modified_time"
+      ],
+      "anyOf": [
+        {
+          "properties": {
+            "target_node_id": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "target_event_id": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "target_object_id": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "config": {
+      "type": "object",
+      "properties": {
+        "skill_version": {
+          "type": "integer",
+          "description": "Optional legacy creation metadata; database compatibility uses PRAGMA user_version."
+        },
+        "database_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "backend": {
+          "enum": [
+            "sqlite",
+            "file"
+          ]
+        },
+        "location": {
+          "type": "string",
+          "minLength": 1
+        },
+        "busy_timeout_ms": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "database_id",
+        "backend",
+        "location"
+      ],
+      "additionalProperties": false
+    },
+    "relation_create": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "relation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "relation_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "key_type": {
+          "enum": [
+            "node",
+            "object",
+            "event"
+          ]
+        },
+        "key_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "enum": [
+            "active",
+            "cancelled"
+          ]
+        },
+        "target_node_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "target_event_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "target_object_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      },
+      "required": [
+        "relation_type",
+        "key_type",
+        "key_id"
+      ],
+      "anyOf": [
+        {
+          "properties": {
+            "target_node_id": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "target_event_id": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "target_object_id": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "page": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/node"
+              },
+              {
+                "$ref": "#/definitions/object"
+              },
+              {
+                "$ref": "#/definitions/event"
+              },
+              {
+                "$ref": "#/definitions/relation"
+              }
+            ]
+          }
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "next_offset": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        }
+      },
+      "required": [
+        "items",
+        "total",
+        "offset",
+        "next_offset"
+      ],
+      "additionalProperties": false
+    },
+    "path_event_query": {
+      "type": "object",
+      "properties": {
+        "end_node_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "object_ids": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "filters": {
+          "type": "object"
+        },
+        "fields": {
+          "anyOf": [
+            {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "enum": [
+                  "seq",
+                  "event_id",
+                  "event_type",
+                  "type_name",
+                  "event_action",
+                  "content",
+                  "state",
+                  "created_time",
+                  "modified_time"
+                ]
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "descending": {
+          "type": "boolean"
+        },
+        "include_total": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "end_node_id",
+        "object_ids",
+        "filters",
+        "fields",
+        "limit",
+        "offset",
+        "descending",
+        "include_total"
+      ],
+      "additionalProperties": false
+    },
+    "source_record": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "$ref": "urn:open-story:data#/definitions/event"
+        },
+        "node_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "object_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "event",
+        "node_id",
+        "object_id"
+      ],
+      "additionalProperties": false
+    },
+    "source_query": {
+      "type": "object",
+      "properties": {
+        "end_node_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "current_node_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "event_ids": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "object_ids": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "event_types": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "seq_max": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "all_nodes": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "end_node_id",
+        "current_node_id",
+        "event_ids",
+        "object_ids",
+        "event_types",
+        "seq_max",
+        "all_nodes"
+      ],
+      "additionalProperties": false
+    },
+    "source_records": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:open-story:data#/definitions/source_record"
+      }
+    },
+    "descendants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "node": {
+            "$ref": "urn:open-story:data#/definitions/node"
+          },
+          "depth": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "node",
+          "depth"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}

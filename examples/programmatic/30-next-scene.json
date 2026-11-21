@@ -1,0 +1,15 @@
+{
+  "operation": "scene_next",
+  "params": {
+    "branch_id": "main",
+    "mode": "normal",
+    "content": {
+      "raw_user_messages": [
+        {
+          "text": "继续故事。",
+          "source": "simulation"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,77 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local Python environments
+.venv/
+venv/
+env/
+
+# Local secrets and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Runtime and generated story data
+open-story-data/
+backups/
+.pending.json
+.runtime.lock
+*.tmp
+*.tmp-*
+*.log
+
+# Editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local story stores and per-story runtime configuration
+/story-data/
+
+# Local legacy archive
+/v5_old/
+
+# Derived viewer assets and local dependencies
+/story-display/node_modules/
+/story-display/dist/
+/story-display/story/
+/story-display/.previews/
+/story-display/.preview-quarantine/
+/story-display/.display.lock
+
+# Private story materials, feedback and source-specific maintenance records
+/docs/
+/story-display/docs/
+/develop/reader_feedback/data/
+/develop/reader_feedback/backups/
+/script/compat/file_story/policies/*
+!/script/compat/file_story/policies/example.json
+/story-display/conf/reading-update-repairs.json
+
+# Story databases saved outside the default data root
+*.sqlite
+*.sqlite3
+*.db
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
+*.db-wal
+*.db-shm
+
+# Per-installation creative preferences and generated active contract
+/.openstory/
+/author/writing-contract.md

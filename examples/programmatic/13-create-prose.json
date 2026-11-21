@@ -1,0 +1,25 @@
+{
+  "operation": "event.create",
+  "params": {
+    "node_id": "manual-node-2",
+    "object": {
+      "object_id": "manual-author-reply",
+      "object_type": "author_reply",
+      "object_key": "manual_prose",
+      "name": "人工练习正文"
+    },
+    "event": {
+      "event_id": "manual-prose-1",
+      "event_type": "author_reply",
+      "type_name": "manual_prose",
+      "content": {
+        "literary_text": "铃声提前响了。你抬头看了一眼钟，记下这次异常。",
+        "editorial_feedback": {
+          "后续空间": "这里只确认时间差，不预设铃声原因。"
+        }
+      }
+    },
+    "select_as": "narrative",
+    "branch_id": "main"
+  }
+}

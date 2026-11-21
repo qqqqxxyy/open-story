@@ -1,0 +1,5966 @@
+{
+  "operations": [
+    {
+      "operation": "database.init",
+      "cli_name": "database-init",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_database_init"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_database_init"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.database:initialize",
+      "containers": [],
+      "bindings": [],
+      "help": {
+        "summary": "按已有连接配置初始化存储结构并返回数据库身份。",
+        "effect": "可能初始化存储结构；不创建root。",
+        "notes": [
+          "需要已有sqlite.json；创建完整故事和root请用story-init。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "operation": "database.info",
+      "cli_name": "database-info",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_database_info"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_database_info"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.database:info",
+      "containers": [],
+      "bindings": [],
+      "help": {
+        "summary": "查看当前数据库身份及四表记录数量。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "读取数量和身份，不新增创作event。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "operation": "record.create",
+      "cli_name": "record-create",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_record_create"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_record_create"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.records:create",
+      "containers": [
+        "record"
+      ],
+      "bindings": [
+        {
+          "flag": "--entity",
+          "path": [
+            "entity"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_record_create/properties/entity"
+          }
+        },
+        {
+          "flag": "--object-id",
+          "path": [
+            "record",
+            "object_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/object_id"
+          },
+          "description": "对象ID；object-events据此召回该对象的event。"
+        },
+        {
+          "flag": "--object-type",
+          "path": [
+            "record",
+            "object_type"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/object_type"
+          },
+          "description": "业务对象类型，例如role_memory、truth；类型名称由业务约定。"
+        },
+        {
+          "flag": "--object-key",
+          "path": [
+            "record",
+            "object_key"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/object_key"
+          },
+          "description": "业务对象键；与类型共同描述对象身份。"
+        },
+        {
+          "flag": "--name",
+          "path": [
+            "record",
+            "name"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/name"
+          },
+          "description": "对象显示名称。"
+        },
+        {
+          "flag": "--relation-id",
+          "path": [
+            "record",
+            "relation_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/relation_id"
+          },
+          "description": "关系ID；创建时省略由脚本生成。"
+        },
+        {
+          "flag": "--relation-type",
+          "path": [
+            "record",
+            "relation_type"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/relation_type"
+          },
+          "description": "关系类型；event为归属，branch_head由专用流程管理。"
+        },
+        {
+          "flag": "--key-type",
+          "path": [
+            "record",
+            "key_type"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/key_type"
+          },
+          "description": "关系源点的记录类型。"
+        },
+        {
+          "flag": "--key-id",
+          "path": [
+            "record",
+            "key_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/key_id"
+          },
+          "description": "关系源点ID。"
+        },
+        {
+          "flag": "--state",
+          "path": [
+            "record",
+            "state"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/state"
+          },
+          "description": "记录状态；操作允许范围见生命周期说明。"
+        },
+        {
+          "flag": "--target-node-id",
+          "path": [
+            "record",
+            "target_node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/target_node_id"
+          },
+          "description": "目标node ID。"
+        },
+        {
+          "flag": "--target-event-id",
+          "path": [
+            "record",
+            "target_event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/target_event_id"
+          },
+          "description": "目标event ID。"
+        },
+        {
+          "flag": "--target-object-id",
+          "path": [
+            "record",
+            "target_object_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/target_object_id"
+          },
+          "description": "目标object ID。"
+        }
+      ],
+      "help": {
+        "summary": "创建object或普通relation记录。",
+        "effect": "写入：创建object或普通relation。",
+        "notes": [
+          "原始记录接口不是创作流程；event/node的创建走专用API。",
+          "branch_head与node_branch不得通过普通关系接口写入。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--entity",
+              "object",
+              "--object-id",
+              "truth_bell",
+              "--object-type",
+              "truth",
+              "--object-key",
+              "bell",
+              "--name",
+              "铃声真相"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "operation": "record.get",
+      "cli_name": "record-get",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_record_get"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_record_get"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.records:get",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--entity",
+          "path": [
+            "entity"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_record_get/properties/entity"
+          }
+        },
+        {
+          "flag": "--record-id",
+          "path": [
+            "record_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_record_get/properties/record_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "按类型和ID读取一条记录。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "原始管理读取不限定分支；创作召回使用node-read、object-events或events-query。",
+          "找不到记录时data=null。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--entity",
+              "event",
+              "--record-id",
+              "<event_id>"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "operation": "record.list",
+      "cli_name": "record-list",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_record_list"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_record_list"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.records:list_records",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--entity",
+          "path": [
+            "entity"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_record_list/properties/entity"
+          }
+        },
+        {
+          "flag": "--filter",
+          "path": [
+            "filters"
+          ],
+          "kind": "filters",
+          "entity_parameter": "entity",
+          "default_entity": "event",
+          "fields_schema": {
+            "$ref": "urn:open-story:data#/definitions"
+          },
+          "exclude": [
+            "content"
+          ],
+          "description": "外层FIELD=VALUE；可重复，同字段形成IN，不解析content。"
+        },
+        {
+          "flag": "--limit",
+          "path": [
+            "limit"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_record_list/properties/limit"
+          }
+        },
+        {
+          "flag": "--offset",
+          "path": [
+            "offset"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_record_list/properties/offset"
+          }
+        },
+        {
+          "flag": "--descending",
+          "path": [
+            "descending"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_record_list/properties/descending"
+          }
+        }
+      ],
+      "help": {
+        "summary": "按外层字段筛选、分页读取记录。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "原始管理查询覆盖数据库，不限定分支；不要将其混入受限世界线创作资料。",
+          "重复--filter的同一字段形成IN筛选。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--entity",
+              "event",
+              "--filter",
+              "event_type=role_memory",
+              "--limit",
+              "20"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "operation": "record.update",
+      "cli_name": "record-update",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_record_update"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_record_update"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.records:update",
+      "containers": [
+        "patch"
+      ],
+      "bindings": [
+        {
+          "flag": "--entity",
+          "path": [
+            "entity"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_record_update/properties/entity"
+          }
+        },
+        {
+          "flag": "--record-id",
+          "path": [
+            "record_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_record_update/properties/record_id"
+          }
+        },
+        {
+          "flag": "--name",
+          "path": [
+            "patch",
+            "name"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/record_patch/properties/name"
+          }
+        },
+        {
+          "flag": "--object-key",
+          "path": [
+            "patch",
+            "object_key"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/record_patch/properties/object_key"
+          }
+        },
+        {
+          "flag": "--state",
+          "path": [
+            "patch",
+            "state"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/record_patch/properties/state"
+          }
+        }
+      ],
+      "help": {
+        "summary": "更新object或普通relation的可变字段。",
+        "effect": "写入：修改object名称或普通relation的可变字段。",
+        "notes": [
+          "object只允许修改name；普通relation只允许修改state或目标端点。",
+          "event.content不可修改，修订应追加event。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--entity",
+              "object",
+              "--record-id",
+              "<object_id>",
+              "--name",
+              "新显示名称"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT",
+          "IMMUTABLE_FIELD"
+        ]
+      }
+    },
+    {
+      "operation": "record.delete",
+      "cli_name": "record-delete",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_record_delete"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_record_delete"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.records:delete",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--entity",
+          "path": [
+            "entity"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_record_delete/properties/entity"
+          }
+        },
+        {
+          "flag": "--record-id",
+          "path": [
+            "record_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_record_delete/properties/record_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "删除没有引用依赖的object或普通relation。",
+        "effect": "写入：物理删除无引用依赖的object或普通relation。",
+        "notes": [
+          "有引用依赖时拒绝删除；节点删除用node-delete-leaf。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--entity",
+              "object",
+              "--record-id",
+              "<无引用object_id>"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT",
+          "REFERENCED"
+        ]
+      }
+    },
+    {
+      "operation": "node.begin",
+      "cli_name": "node-begin",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_node_begin"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_node_begin"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.nodes:begin",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_begin/properties/node_id"
+          }
+        },
+        {
+          "flag": "--node-type",
+          "path": [
+            "node_type"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_begin/properties/node_type"
+          }
+        },
+        {
+          "flag": "--predecessor-id",
+          "path": [
+            "predecessor_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_begin/properties/predecessor_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_begin/properties/branch_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "创建草稿节点，并更新对应分支头。",
+        "effect": "写入：创建草稿node并更新分支head；相同身份可复用。",
+        "notes": [
+          "普通续写沿用叶子当前branch_id，要求前驱已发布；省略前驱取该分支head。",
+          "root只能创建一次，无前驱；节点创建后叶子立即拥有head。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--node-id",
+              "<新node_id>"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT",
+          "STALE_HEAD",
+          "PREDECESSOR_INACTIVE"
+        ]
+      }
+    },
+    {
+      "operation": "node.publish",
+      "cli_name": "node-publish",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_node_publish"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_node_publish"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.nodes:publish",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_publish/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_publish/properties/branch_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "发布草稿或维护中的节点。",
+        "effect": "写入：将符合发布条件的node设为active。",
+        "notes": [
+          "scene发布时必须有前驱、正文event指针、摘要event指针，前驱已发布。",
+          "root允许正文和摘要为空；正文使用literary_text或有序fragment_event_ids，摘要使用summary。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--node-id",
+              "<待发布node_id>"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT",
+          "PUBLICATION_INCOMPLETE",
+          "INVALID_SELECTION"
+        ]
+      }
+    },
+    {
+      "operation": "node.read",
+      "cli_name": "node-read",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_node_read"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_node_read"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.nodes:read",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_read/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_read/properties/branch_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "读取分支内节点、当前正文和摘要。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "目标节点必须位于该分支前驱链上。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--node-id",
+              "<node_id>"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "operation": "node.cancel",
+      "cli_name": "node-cancel",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_node_cancel"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_node_cancel"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.nodes:cancel",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_cancel/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_cancel/properties/branch_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "将非root叶子节点标为cancelled，保留记录。",
+        "effect": "写入：将非root叶子node设为cancelled，保留记录和head。",
+        "notes": [
+          "仅非root叶子允许取消；节点不物理删除，head仍保留。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--node-id",
+              "<叶子node_id>"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT",
+          "NOT_LEAF",
+          "ROOT_PROTECTED"
+        ]
+      }
+    },
+    {
+      "operation": "node.delete_leaf",
+      "cli_name": "node-delete-leaf",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_node_delete_leaf"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_node_delete_leaf"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.nodes:delete_leaf",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_delete_leaf/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_delete_leaf/properties/branch_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "删除非root叶子节点及其event、relation。",
+        "effect": "写入：物理删除叶子node及其event、relation，并调整分支head。",
+        "notes": [
+          "只允许非root叶子；存在外部引用依赖时拒绝。",
+          "删除后若前驱成为叶子，将当前branch head移到前驱；否则移除head并保留branch object。",
+          "普通object身份保留，不因删除node而删除。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--node-id",
+              "<叶子node_id>"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT",
+          "NOT_LEAF",
+          "ROOT_PROTECTED",
+          "EXTERNAL_DEPENDENCY"
+        ]
+      }
+    },
+    {
+      "operation": "node.events",
+      "cli_name": "node-events",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_node_events"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_node_events"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.events:node_events",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_events/properties/node_id"
+          }
+        },
+        {
+          "flag": "--filter",
+          "path": [
+            "filters"
+          ],
+          "kind": "filters",
+          "entity_parameter": "entity",
+          "default_entity": "event",
+          "fields_schema": {
+            "$ref": "urn:open-story:data#/definitions"
+          },
+          "exclude": [
+            "content"
+          ],
+          "description": "外层FIELD=VALUE；可重复，同字段形成IN，不解析content。"
+        },
+        {
+          "flag": "--limit",
+          "path": [
+            "limit"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_events/properties/limit"
+          }
+        },
+        {
+          "flag": "--offset",
+          "path": [
+            "offset"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_events/properties/offset"
+          }
+        },
+        {
+          "flag": "--descending",
+          "path": [
+            "descending"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_events/properties/descending"
+          }
+        },
+        {
+          "flag": "--event-type",
+          "path": [
+            "event_type"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_events/properties/event_type"
+          }
+        },
+        {
+          "flag": "--state",
+          "path": [
+            "state"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_events/properties/state"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_events/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--event-action",
+          "path": [
+            "event_action"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_events/properties/event_action"
+          }
+        }
+      ],
+      "help": {
+        "summary": "召回某个节点生产的event。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "仅查询该node生产的event；node必须位于目标分支上。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--node-id",
+              "<node_id>",
+              "--event-type",
+              "role_memory"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "operation": "object.ensure",
+      "cli_name": "object-ensure",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_object_ensure"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_object_ensure"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.records:ensure_object",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--object-id",
+          "path": [
+            "object_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/object_id"
+          },
+          "description": "对象ID；object-events据此召回该对象的event。"
+        },
+        {
+          "flag": "--object-type",
+          "path": [
+            "object_type"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/object_type"
+          },
+          "description": "业务对象类型，例如role_memory、truth；类型名称由业务约定。"
+        },
+        {
+          "flag": "--object-key",
+          "path": [
+            "object_key"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/object_key"
+          },
+          "description": "业务对象键；与类型共同描述对象身份。"
+        },
+        {
+          "flag": "--name",
+          "path": [
+            "name"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/name"
+          },
+          "description": "对象显示名称。"
+        }
+      ],
+      "help": {
+        "summary": "确保对象存在，相同身份时复用。",
+        "effect": "写入：创建object；相同身份的已有对象直接复用。",
+        "notes": [
+          "object_id相同且object_type/object_key一致时复用；身份冲突时失败。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--object-id",
+              "role_memory_player",
+              "--object-type",
+              "role_memory",
+              "--object-key",
+              "player",
+              "--name",
+              "主角记忆"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT",
+          "IDENTITY_CONFLICT"
+        ]
+      }
+    },
+    {
+      "operation": "object.events",
+      "cli_name": "object-events",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_object_events"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_object_events"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.events:object_events",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--object-id",
+          "path": [
+            "object_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_object_events/properties/object_id"
+          }
+        },
+        {
+          "flag": "--filter",
+          "path": [
+            "filters"
+          ],
+          "kind": "filters",
+          "entity_parameter": "entity",
+          "default_entity": "event",
+          "fields_schema": {
+            "$ref": "urn:open-story:data#/definitions"
+          },
+          "exclude": [
+            "content"
+          ],
+          "description": "外层FIELD=VALUE；可重复，同字段形成IN，不解析content。"
+        },
+        {
+          "flag": "--limit",
+          "path": [
+            "limit"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_object_events/properties/limit"
+          }
+        },
+        {
+          "flag": "--offset",
+          "path": [
+            "offset"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_object_events/properties/offset"
+          }
+        },
+        {
+          "flag": "--descending",
+          "path": [
+            "descending"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_object_events/properties/descending"
+          }
+        },
+        {
+          "flag": "--event-type",
+          "path": [
+            "event_type"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_object_events/properties/event_type"
+          }
+        },
+        {
+          "flag": "--state",
+          "path": [
+            "state"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_object_events/properties/state"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_object_events/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--at-node-id",
+          "path": [
+            "at_node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_object_events/properties/at_node_id"
+          }
+        },
+        {
+          "flag": "--fields",
+          "path": [
+            "fields"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_object_events/properties/fields"
+          }
+        },
+        {
+          "flag": "--include-total",
+          "path": [
+            "include_total"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_object_events/properties/include_total"
+          }
+        },
+        {
+          "flag": "--event-action",
+          "path": [
+            "event_action"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_object_events/properties/event_action"
+          }
+        }
+      ],
+      "help": {
+        "summary": "召回对象在目标分支世界线上的event。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "仅返回该对象在目标分支前驱链上的event；at-node-id必须位于该链上。",
+          "返回原始event记录，不应用replace/cancel生成当前采用视图。",
+          "省略state不限定状态；需要active记录时显式传--state active。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--object-id",
+              "role_memory_player",
+              "--state",
+              "active"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "operation": "event.create",
+      "cli_name": "event-create",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_event_create"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_event_create"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.events:create",
+      "containers": [
+        "object",
+        "event"
+      ],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_event_create/properties/node_id"
+          }
+        },
+        {
+          "flag": "--node-type",
+          "path": [
+            "node_type"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_event_create/properties/node_type"
+          }
+        },
+        {
+          "flag": "--predecessor-id",
+          "path": [
+            "predecessor_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_event_create/properties/predecessor_id"
+          }
+        },
+        {
+          "flag": "--object-id",
+          "path": [
+            "object",
+            "object_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/object_id"
+          },
+          "description": "对象ID；object-events据此召回该对象的event。"
+        },
+        {
+          "flag": "--object-type",
+          "path": [
+            "object",
+            "object_type"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/object_type"
+          },
+          "description": "业务对象类型，例如role_memory、truth；类型名称由业务约定。"
+        },
+        {
+          "flag": "--object-key",
+          "path": [
+            "object",
+            "object_key"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/object_key"
+          },
+          "description": "业务对象键；与类型共同描述对象身份。"
+        },
+        {
+          "flag": "--name",
+          "path": [
+            "object",
+            "name"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/name"
+          },
+          "description": "对象显示名称。"
+        },
+        {
+          "flag": "--event-id",
+          "path": [
+            "event",
+            "event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_event_create/properties/event/properties/event_id"
+          }
+        },
+        {
+          "flag": "--event-type",
+          "path": [
+            "event",
+            "event_type"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_event_create/properties/event/properties/event_type"
+          }
+        },
+        {
+          "flag": "--type-name",
+          "path": [
+            "event",
+            "type_name"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_event_create/properties/event/properties/type_name"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "event",
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_event_create/properties/event/properties/content"
+          }
+        },
+        {
+          "flag": "--event-state",
+          "path": [
+            "event",
+            "state"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_event_create/properties/event/properties/state"
+          }
+        },
+        {
+          "flag": "--select-as",
+          "path": [
+            "select_as"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_event_create/properties/select_as"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_event_create/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--event-action",
+          "path": [
+            "event",
+            "event_action"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_event_create/properties/event/properties/event_action"
+          }
+        },
+        {
+          "flag": "--target-event-ids",
+          "path": [
+            "target_event_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_event_create/properties/target_event_ids"
+          }
+        }
+      ],
+      "help": {
+        "summary": "追加event并维护唯一node/object归属。",
+        "effect": "写入：追加event及归属、操作目标关系，可选择正文/摘要指针；目标node不存在时创建草稿。",
+        "notes": [
+          "append累积新的经历、获知和关系变化，保留发生时点与来源；replace更正旧记录的事实/记录错误或同一时间与断言范围内的语义冲突，并在content中说明修订理由。",
+          "已有node须处于creating/updating；不存在时按分支续写规则懒创建。",
+          "event.content和归属不可覆盖，同event_id同身份同内容可复用。",
+          "content接受任意合法JSON；正文可使用literary_text字符串或非空有序fragment_event_ids，摘要使用summary字符串。",
+          "创建event_id可省略，时间/seq/ownership由脚本生成。",
+          "replace/cancel以target-event-ids指定同object可见的旧内容记录。cancel不要求正文；summarize使用摘要契约，批量保存使用capsule-save。",
+          "event-action=cancel是业务排除操作，区别于event-cancel对叶子记录的存储状态维护；正文/摘要select-as仅支持append。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--node-id",
+              "<可写node_id>",
+              "--object-id",
+              "role_memory_player",
+              "--object-type",
+              "role_memory",
+              "--object-key",
+              "player",
+              "--name",
+              "主角记忆",
+              "--event-type",
+              "role_memory",
+              "--type-name",
+              "player",
+              "--content-file",
+              "<内容.json>"
+            ],
+            "content": {
+              "claim": "本次记忆内容",
+              "自由栏目": {
+                "任意结构": [
+                  1,
+                  true
+                ]
+              }
+            }
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT",
+          "NODE_NOT_WRITABLE",
+          "IDEMPOTENCY_CONFLICT",
+          "INVALID_SELECTION",
+          "INVALID_EVENT_ACTION",
+          "INVALID_EVENT_ACTION_TARGET"
+        ]
+      }
+    },
+    {
+      "operation": "event.cancel",
+      "cli_name": "event-cancel",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_event_cancel"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_event_cancel"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.events:cancel",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--event-id",
+          "path": [
+            "event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_event_cancel/properties/event_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_event_cancel/properties/branch_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "取消叶子节点生产的event。",
+        "effect": "写入：将叶子node生产的event设为cancelled，保留原content。",
+        "notes": [
+          "event生产节点必须是该分支叶子；取消不覆盖content。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--event-id",
+              "<叶子节点event_id>"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT",
+          "NOT_LEAF"
+        ]
+      }
+    },
+    {
+      "operation": "node.revise",
+      "cli_name": "node-revise",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_node_revise"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_node_revise"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.nodes:revise",
+      "containers": [
+        "object",
+        "event"
+      ],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_revise/properties/node_id"
+          }
+        },
+        {
+          "flag": "--node-type",
+          "path": [
+            "node_type"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_revise/properties/node_type"
+          }
+        },
+        {
+          "flag": "--predecessor-id",
+          "path": [
+            "predecessor_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_revise/properties/predecessor_id"
+          }
+        },
+        {
+          "flag": "--object-id",
+          "path": [
+            "object",
+            "object_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/object_id"
+          },
+          "description": "对象ID；object-events据此召回该对象的event。"
+        },
+        {
+          "flag": "--object-type",
+          "path": [
+            "object",
+            "object_type"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/object_type"
+          },
+          "description": "业务对象类型，例如role_memory、truth；类型名称由业务约定。"
+        },
+        {
+          "flag": "--object-key",
+          "path": [
+            "object",
+            "object_key"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/object_key"
+          },
+          "description": "业务对象键；与类型共同描述对象身份。"
+        },
+        {
+          "flag": "--name",
+          "path": [
+            "object",
+            "name"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/object_input/properties/name"
+          },
+          "description": "对象显示名称。"
+        },
+        {
+          "flag": "--event-id",
+          "path": [
+            "event",
+            "event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_revise/properties/event/properties/event_id"
+          }
+        },
+        {
+          "flag": "--event-type",
+          "path": [
+            "event",
+            "event_type"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_revise/properties/event/properties/event_type"
+          }
+        },
+        {
+          "flag": "--type-name",
+          "path": [
+            "event",
+            "type_name"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_revise/properties/event/properties/type_name"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "event",
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_revise/properties/event/properties/content"
+          }
+        },
+        {
+          "flag": "--event-state",
+          "path": [
+            "event",
+            "state"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_revise/properties/event/properties/state"
+          }
+        },
+        {
+          "flag": "--select-as",
+          "path": [
+            "select_as"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_revise/properties/select_as"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_revise/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--event-action",
+          "path": [
+            "event",
+            "event_action"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_revise/properties/event/properties/event_action"
+          }
+        },
+        {
+          "flag": "--target-event-ids",
+          "path": [
+            "target_event_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_revise/properties/target_event_ids"
+          }
+        }
+      ],
+      "help": {
+        "summary": "维护已发布节点，追加event后恢复active。",
+        "effect": "写入：将已发布node进入updating，追加event及相关关系/指针，再恢复active。",
+        "notes": [
+          "append累积新的经历、获知和关系变化，保留发生时点与来源；replace更正旧记录的事实/记录错误或同一时间与断言范围内的语义冲突，并在content中说明修订理由。",
+          "目标必须已发布且在该分支上；进入updating、追加event、恢复active。",
+          "正文/摘要选择规则同event-create；不覆盖旧正文event。",
+          "replace/cancel以target-event-ids指定同object可见的旧内容记录。cancel不要求正文；summarize使用摘要契约，批量保存使用capsule-save。",
+          "event-action=cancel是业务排除操作，区别于event-cancel对叶子记录的存储状态维护；正文/摘要select-as仅支持append。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--node-id",
+              "<已发布node_id>",
+              "--object-id",
+              "role_memory_player",
+              "--object-type",
+              "role_memory",
+              "--object-key",
+              "player",
+              "--name",
+              "主角记忆",
+              "--event-type",
+              "role_memory",
+              "--type-name",
+              "player",
+              "--content-file",
+              "<内容.json>"
+            ],
+            "content": {
+              "claim": "本次补充或修订内容",
+              "自由说明": "保留开放结构"
+            }
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT",
+          "NODE_NOT_ACTIVE",
+          "INVALID_SELECTION",
+          "INVALID_EVENT_ACTION",
+          "INVALID_EVENT_ACTION_TARGET"
+        ]
+      }
+    },
+    {
+      "operation": "relation.create",
+      "cli_name": "relation-create",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_relation_create"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_relation_create"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.records:create_relation",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--relation-id",
+          "path": [
+            "relation_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/relation_id"
+          },
+          "description": "关系ID；创建时省略由脚本生成。"
+        },
+        {
+          "flag": "--relation-type",
+          "path": [
+            "relation_type"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/relation_type"
+          },
+          "description": "关系类型；event为归属，branch_head由专用流程管理。"
+        },
+        {
+          "flag": "--key-type",
+          "path": [
+            "key_type"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/key_type"
+          },
+          "description": "关系源点的记录类型。"
+        },
+        {
+          "flag": "--key-id",
+          "path": [
+            "key_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/key_id"
+          },
+          "description": "关系源点ID。"
+        },
+        {
+          "flag": "--state",
+          "path": [
+            "state"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/state"
+          },
+          "description": "记录状态；操作允许范围见生命周期说明。"
+        },
+        {
+          "flag": "--target-node-id",
+          "path": [
+            "target_node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/target_node_id"
+          },
+          "description": "目标node ID。"
+        },
+        {
+          "flag": "--target-event-id",
+          "path": [
+            "target_event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/target_event_id"
+          },
+          "description": "目标event ID。"
+        },
+        {
+          "flag": "--target-object-id",
+          "path": [
+            "target_object_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:data#/definitions/relation_create/properties/target_object_id"
+          },
+          "description": "目标object ID。"
+        }
+      ],
+      "help": {
+        "summary": "创建普通关系，ID可由脚本生成。",
+        "effect": "写入：创建普通relation。",
+        "notes": [
+          "event归属关系要求key_type=event，node/object端点同时存在。",
+          "每个event恰好一个归属；通常由event-create自动生成。",
+          "branch_head由专用分支流程维护，普通接口不能写入。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--relation-type",
+              "reference",
+              "--key-type",
+              "object",
+              "--key-id",
+              "<object_id>",
+              "--target-node-id",
+              "<node_id>"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "operation": "sample.import_v5",
+      "cli_name": "sample-import-v5",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_sample_import_v5"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_sample_import_v5"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.compat:import_sample",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--source-story",
+          "path": [
+            "source_story"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_sample_import_v5/properties/source_story"
+          }
+        }
+      ],
+      "help": {
+        "summary": "辅助导入v5故事的root与第一幕。",
+        "effect": "写入：将样本条目录入当前库。",
+        "notes": [
+          "只导入唯一root与第一幕的条目，不是全故事迁移。",
+          "来源目录是历史输入；导入目标为当前配置指向的库，实际改变数据。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<目标配置>",
+              "--source-story",
+              "<v5故事目录>"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "operation": "batch",
+      "cli_name": "batch",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_batch"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_batch"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.batch:execute",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--commands-file",
+          "path": [
+            "commands"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_batch/properties/commands"
+          }
+        }
+      ],
+      "help": {
+        "summary": "在同一数据库事务中组合多个操作。",
+        "effect": "按子操作读写；同库事务提交或回滚。",
+        "notes": [
+          "commands是内部operation/params数组；每项按注册的API输入契约校验。",
+          "组合已有库的数据操作，不将story-init或预留创作接口混入同库事务。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--commands-file",
+              "<请求数组.json>"
+            ],
+            "content": [
+              {
+                "operation": "database.info",
+                "params": {}
+              },
+              {
+                "operation": "branch.read",
+                "params": {
+                  "branch_id": "main"
+                }
+              }
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "operation": "branch.fork",
+      "cli_name": "branch-fork",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_branch_fork"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_branch_fork"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.branches:fork",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_branch_fork/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--name",
+          "path": [
+            "name"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_branch_fork/properties/name"
+          }
+        },
+        {
+          "flag": "--from-node-id",
+          "path": [
+            "from_node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_branch_fork/properties/from_node_id"
+          }
+        },
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_branch_fork/properties/node_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "从已发布非叶子节点创建新分支及草稿。",
+        "effect": "写入：创建或复用分支身份，创建草稿node并设置新分支head。",
+        "notes": [
+          "锚点必须active且非叶子；叶子续写沿用原branch_id，用node-begin。",
+          "新分支创建一个草稿和head，不补祖先的逐node分支标记。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--from-node-id",
+              "<active非叶子node_id>",
+              "--branch-id",
+              "<新branch_id>",
+              "--node-id",
+              "<新node_id>"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT",
+          "FORK_AT_LEAF",
+          "PREDECESSOR_INACTIVE",
+          "BRANCH_EXISTS"
+        ]
+      }
+    },
+    {
+      "operation": "branch.read",
+      "cli_name": "branch-read",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_branch_read"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_branch_read"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.branches:read",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_branch_read/properties/branch_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "读取分支身份及当前head。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "无head的branch身份仍可存在，status=inactive。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "operation": "branch.scope",
+      "cli_name": "branch-scope",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_branch_scope"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_branch_scope"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.branches:scope",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_branch_scope/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--at-node-id",
+          "path": [
+            "at_node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_branch_scope/properties/at_node_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "查询分支或截止点的前驱世界线。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "at-node-id省略取head；非本分支节点拒绝读取。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--at-node-id",
+              "<截止node_id>"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "operation": "node.branch",
+      "cli_name": "node-branch",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_node_branch"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_node_branch"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.branches:node_branch",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_branch/properties/node_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "查询叶子节点的唯一分支；非叶子返回null。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "每个叶子唯一head；非叶子没有唯一branch。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "operation": "events.query",
+      "cli_name": "events-query",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_events_query"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_events_query"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.events:query",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_events_query/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--at-node-id",
+          "path": [
+            "at_node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_events_query/properties/at_node_id"
+          }
+        },
+        {
+          "flag": "--object-ids",
+          "path": [
+            "object_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_events_query/properties/object_ids"
+          }
+        },
+        {
+          "flag": "--event-types",
+          "path": [
+            "event_types"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_events_query/properties/event_types"
+          }
+        },
+        {
+          "flag": "--state",
+          "path": [
+            "state"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_events_query/properties/state"
+          }
+        },
+        {
+          "flag": "--filter",
+          "path": [
+            "filters"
+          ],
+          "kind": "filters",
+          "entity_parameter": "entity",
+          "default_entity": "event",
+          "fields_schema": {
+            "$ref": "urn:open-story:data#/definitions"
+          },
+          "exclude": [
+            "content"
+          ],
+          "description": "外层FIELD=VALUE；可重复，同字段形成IN，不解析content。"
+        },
+        {
+          "flag": "--fields",
+          "path": [
+            "fields"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_events_query/properties/fields"
+          }
+        },
+        {
+          "flag": "--include-total",
+          "path": [
+            "include_total"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_events_query/properties/include_total"
+          }
+        },
+        {
+          "flag": "--limit",
+          "path": [
+            "limit"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_events_query/properties/limit"
+          }
+        },
+        {
+          "flag": "--offset",
+          "path": [
+            "offset"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_events_query/properties/offset"
+          }
+        },
+        {
+          "flag": "--descending",
+          "path": [
+            "descending"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_events_query/properties/descending"
+          }
+        },
+        {
+          "flag": "--event-action",
+          "path": [
+            "event_action"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_events_query/properties/event_action"
+          }
+        }
+      ],
+      "help": {
+        "summary": "按分支路径、对象、类型等组合召回event。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "过滤在SQLite组合查询中执行，不逐条加载全库求交集。",
+          "fields是外层字段投影；开放content中的键不由该接口解释或筛选。",
+          "省略state不限定状态；角色知识/客观事实由业务区分。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--event-types",
+              "role_memory",
+              "--fields",
+              "event_id",
+              "content",
+              "--no-include-total"
+            ]
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "operation": "story_init",
+      "cli_name": "story-init",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_story_init"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_story_init"
+      },
+      "storage_mode": "initialize",
+      "handler": "script.workflow.pipeline.handlers.initialization:initialize",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--story-id",
+          "path": [
+            "story_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/story_init_params/properties/story_id"
+          }
+        },
+        {
+          "flag": "--title",
+          "path": [
+            "title"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/story_init_params/properties/title"
+          }
+        },
+        {
+          "flag": "--environment",
+          "path": [
+            "environment"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/story_init_params/properties/environment"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/story_init_params/properties/content"
+          }
+        }
+      ],
+      "help": {
+        "summary": "创建故事目录、SQLite库、root、开局设置和原始输入。",
+        "effect": "写入：创建故事目录、配置、库和root内容。",
+        "notes": [
+          "同一story_id与相同初始化内容重试返回already_initialized=true；不同内容不会覆盖。",
+          "settings每项成为object/event；原始输入按顺序保留，不能由解释替代。",
+          "目录与配置在SQL事务外创建；root及其内容在同库事务内落库。",
+          "当前不创建第一幕，不调用作者。",
+          "protagonist/narration只在请求未明确指定且本机已保存默认值时补充；首次使用的偏好确认与本地契约生成见INITIALIZE.md。未配置的技术调用不植入固定姓名或视角。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--story-id",
+              "new-story-demo",
+              "--title",
+              "故事标题",
+              "--environment",
+              "debug",
+              "--content-file",
+              "<开局.json>"
+            ],
+            "content": {
+              "settings": {
+                "background": "本次确认的背景",
+                "tone": [
+                  "本次确认的基调"
+                ]
+              },
+              "raw_user_messages": [
+                {
+                  "text": "逐字原始输入",
+                  "source": "assistant_transcribed"
+                }
+              ]
+            }
+          }
+        ],
+        "errors": [
+          "INVALID_SCHEMA",
+          "INVALID_ARGUMENT",
+          "STORY_EXISTS"
+        ]
+      }
+    },
+    {
+      "operation": "scene_next",
+      "cli_name": "scene-next",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_scene_next"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_scene_next"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:next_scene",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_next/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_next/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--mode",
+          "path": [
+            "mode"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_next/properties/mode"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_next/properties/content"
+          }
+        }
+      ],
+      "help": {
+        "summary": "开启普通幕或交互幕；自动生成node ID，固定历史前驱。",
+        "effect": "写入：创建或接入草稿，保存原始输入及固定读取范围；相同请求复用原幕。",
+        "notes": [
+          "从root开始即第一幕；已有branch-fork草稿可直接接入。同输入重试恢复原幕，不自动丢弃草稿。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--content-file",
+              "<内容.json>"
+            ],
+            "content": {
+              "raw_user_messages": [
+                {
+                  "text": "继续故事",
+                  "source": "simulation"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "operation": "scene.status",
+      "cli_name": "scene-status",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_scene_status"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_scene_status"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:scene_status",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_status/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_status/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--output-root",
+          "path": [
+            "output_root"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_status/properties/output_root"
+          }
+        }
+      ],
+      "help": {
+        "summary": "查询原幕已保存材料及恢复阶段。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "status由数据库材料推导，展示成功另看display_snapshot_available/display_html_available；output-root指定待检查的展示目录。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "operation": "author.bind",
+      "cli_name": "author-bind",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_author_bind"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_author_bind"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:author_bind",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_author_bind/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_author_bind/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--session-id",
+          "path": [
+            "session_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_author_bind/properties/session_id"
+          }
+        },
+        {
+          "flag": "--agent-id",
+          "path": [
+            "agent_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_author_bind/properties/agent_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "绑定宿主提供的持续作者身份。",
+        "effect": "写入：保存作者身份关联记录；相同绑定直接复用。",
+        "notes": [],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--session-id",
+              "<session_id>",
+              "--agent-id",
+              "<agent_id>"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "operation": "scene.context",
+      "cli_name": "scene-context",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_scene_context"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_scene_context"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:scene_context",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_context/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_context/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--scene-need",
+          "path": [
+            "scene_need"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_context/properties/scene_need"
+          }
+        },
+        {
+          "flag": "--character-ids",
+          "path": [
+            "character_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_context/properties/character_ids"
+          }
+        },
+        {
+          "flag": "--event-ids",
+          "path": [
+            "event_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_context/properties/event_ids"
+          }
+        },
+        {
+          "flag": "--object-ids",
+          "path": [
+            "object_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_context/properties/object_ids"
+          }
+        },
+        {
+          "flag": "--view",
+          "path": [
+            "view"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_context/properties/view"
+          }
+        }
+      ],
+      "help": {
+        "summary": "召回本幕当前业务投影与Capsule，原始来源按需追查。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "数量与排序策略读取conf/creative.json；投影不等于原始event。",
+          "开启capsule_mode后独立返回capsules与capsule_object_ids：全部有效二级及未被有效二级覆盖的一级；不自动补原文尾部，不占精确召回数量。",
+          "人物侧写与记忆按人物保留近期精确event及相关旧event；profile_recent/profile_related、memory_recent/memory_related由conf/creative.json配置，侧写摘要同其他object独立召回。",
+          "关系先筛选涉及已选人物的有效记录，再按叙事路径顺序保留全局最近relationship_limit条（默认6），不是每个关系object各6条；显式event_ids另行加入。",
+          "selection_diagnostics由脚本自动生成并记录到集中日志：可检查候选量、限额、近期/相关记录数量、选集首末来源、显式补选及零分匹配；不要求agent填写诊断字段。",
+          "compact返回选中的当前业务投影及诊断，不重复返回原始sources；full同时返回投影与原始来源，用于追查。",
+          "两种视图选集、数量、范围、capsules和selection_diagnostics一致；原始记录可用context-read显式event ID补查。",
+          "需要完整转储时使用CLI --output-file；stdout仅返回文件回执，Agent按需读取文件。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>"
+            ]
+          },
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--output-file",
+              "<召回结果.json>"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "operation": "context.read",
+      "cli_name": "context-read",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_context_read"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_context_read"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:context_read",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_read/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_read/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--event-ids",
+          "path": [
+            "event_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_read/properties/event_ids"
+          }
+        },
+        {
+          "flag": "--object-ids",
+          "path": [
+            "object_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_read/properties/object_ids"
+          }
+        },
+        {
+          "flag": "--event-types",
+          "path": [
+            "event_types"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_read/properties/event_types"
+          }
+        },
+        {
+          "flag": "--source-node-ids",
+          "path": [
+            "source_node_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_read/properties/source_node_ids"
+          }
+        },
+        {
+          "flag": "--keyword",
+          "path": [
+            "keyword"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_read/properties/keyword"
+          }
+        },
+        {
+          "flag": "--limit",
+          "path": [
+            "limit"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_read/properties/limit"
+          }
+        },
+        {
+          "flag": "--offset",
+          "path": [
+            "offset"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_read/properties/offset"
+          }
+        },
+        {
+          "flag": "--view",
+          "path": [
+            "view"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_read/properties/view"
+          }
+        },
+        {
+          "flag": "--max-text-chars",
+          "path": [
+            "max_text_chars"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_read/properties/max_text_chars"
+          }
+        },
+        {
+          "flag": "--cursor",
+          "path": [
+            "cursor"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_read/properties/cursor"
+          }
+        },
+        {
+          "flag": "--maintenance-job-id",
+          "path": [
+            "maintenance_job_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_read/properties/maintenance_job_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "导演或作者在本幕范围定向补查资料。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "full按event分页；source-node-ids还会展开完整正文，limit仅限制sources。",
+          "首次阅读多幕正文使用view=prose：只返回正文片段，按字符预算分页；按page.next_cursor续读到complete=true，拼接时保留所有字符。",
+          "prose字符预算默认来自creative.reading.prose_page_characters，可用max-text-chars覆盖；原文按段落或字符连续切分，未返回部分由后续页提供。",
+          "cursor固定节点顺序、正文版本和本幕范围；续页可以只传node-id、view和cursor。",
+          "资料过滤参数event-ids/object-ids/event-types/keyword以及limit/offset只用于full资料视图；prose按照选定的正文版本读取。",
+          "返回JSON保持统一包络。工具端解析后只呈现本页正文与简短分页信息；exec_command与外层执行工具各自有输出预算。",
+          "已采纳幕维护中有具体缺口时，显式maintenance_job_id使用任务独立scope；来源校验、采用正文与草稿隔离保留。不传时仍为原创作范围，不回填迟归档。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>"
+            ]
+          },
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<本幕ID>",
+              "--view",
+              "prose",
+              "--source-node-ids",
+              "<历史幕1>",
+              "<历史幕2>"
+            ]
+          },
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<本幕ID>",
+              "--view",
+              "prose",
+              "--cursor",
+              "<上页page.next_cursor>"
+            ]
+          },
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<目标采用幕ID>",
+              "--branch-id",
+              "main",
+              "--maintenance-job-id",
+              "<job_id>"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "operation": "director.save",
+      "cli_name": "director-handoff-save",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_director_save"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_director_save"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:director_save",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_director_save/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_director_save/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_director_save/properties/content"
+          }
+        }
+      ],
+      "help": {
+        "summary": "保存导演组织结果与源event索引。",
+        "effect": "写入：保存导演包及来源索引；相同内容复用已有包。",
+        "notes": [
+          "全部内容是文学参考；不逐项约束作者。",
+          "来源索引仅保存在content；保存时校验来源范围，不生成creative_source关系。工作流object按类别在故事内复用。",
+          "capsule_event_ids保存选中的摘要索引，capsule_object_ids保留本幕激活对象；来源仍只在content中。",
+          "creative_intent说明读者期待与依据，plot_possibilities说明潜在发展及内部冲突；沿用开放内容，不要求固定候选数量或内部字段。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--content-file",
+              "<内容.json>"
+            ],
+            "content": {
+              "interpreted_intent": "承接上一幕。",
+              "scene_need": "让既有行动产生后果。",
+              "groups": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "operation": "director.read",
+      "cli_name": "director-handoff-read",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_director_read"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_director_read"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:director_read",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_director_read/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_director_read/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--packet-event-id",
+          "path": [
+            "packet_event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_director_read/properties/packet_event_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "批量展开指定导演包，源event只返回一次。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "不会二次自动召回；来源追溯索引不递归展开。",
+          "author_policy指向共同契约；文学目标与材料态度由角色文档维护，API负责范围校验与内容展开。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "operation": "author.save",
+      "cli_name": "author-reply-save",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_author_save"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_author_save"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:author_save",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_author_save/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_author_save/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_author_save/properties/content"
+          }
+        },
+        {
+          "flag": "--source-packet-event-id",
+          "path": [
+            "source_packet_event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_author_save/properties/source_packet_event_id"
+          }
+        },
+        {
+          "flag": "--attempt-id",
+          "path": [
+            "attempt_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_author_save/properties/attempt_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "保存普通幕文学正文与作者反馈；正文只有一个权威来源。",
+        "effect": "写入：保存普通幕正文与作者包，设置正文指针。",
+        "notes": [
+          "初稿/大修引用本attempt导演包，小修引用基准稿导演包；同attempt内实际来源可不是最新包，source_is_latest仅作说明。保存前完成review。",
+          "保存完整正文与反馈；feedback为可省略的开放对象。",
+          "来源索引仅保存在content；保存时校验来源范围，不生成creative_source关系。工作流object按类别在故事内复用。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE",
+          "STALE_MANUSCRIPT",
+          "DRAFT_NOT_ADOPTED",
+          "MANUSCRIPT_ACCEPTED",
+          "MAINTENANCE_SCOPE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--content-file",
+              "-",
+              "--source-packet-event-id",
+              "<packet_event_id>"
+            ],
+            "content": {
+              "literary_text": "TEST_PROSE_A",
+              "feedback": {}
+            }
+          }
+        ]
+      }
+    },
+    {
+      "operation": "author.read",
+      "cli_name": "author-reply-read",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_author_read"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_author_read"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:author_read",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_author_read/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_author_read/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--packet-event-id",
+          "path": [
+            "packet_event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_author_read/properties/packet_event_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "展开完整正文与反馈，供导演展示和归档。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "正式接收按作者成功回执的交付ID读取；省略ID仅用于恢复。指定ID须属于本幕且类型正确。",
+          "新流程未采用稿必须明确packet_event_id定向恢复；正常创作召回不自动展开草稿。明确历史审计可按旧包ID读取，不改变采用选择。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE",
+          "STALE_MANUSCRIPT",
+          "DRAFT_NOT_ADOPTED",
+          "MANUSCRIPT_ACCEPTED",
+          "MAINTENANCE_SCOPE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--packet-event-id",
+              "<packet_event_id>"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "operation": "dialogue.input",
+      "cli_name": "dialogue-input",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_dialogue_input"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_dialogue_input"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:dialogue_input",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_dialogue_input/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_dialogue_input/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--turn-id",
+          "path": [
+            "turn_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_dialogue_input/properties/turn_id"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_dialogue_input/properties/content"
+          }
+        }
+      ],
+      "help": {
+        "summary": "保存新增对话输入，返回轻量续轮消息；不重建信息包。",
+        "effect": "写入：保存新增原始输入；相同待回应输入复用原turn。",
+        "notes": [],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--content-file",
+              "<内容.json>"
+            ],
+            "content": {
+              "raw_user_messages": [
+                {
+                  "text": "“然后呢？”",
+                  "source": "simulation"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "operation": "dialogue.save",
+      "cli_name": "dialogue-turn-save",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_dialogue_save"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_dialogue_save"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:dialogue_save",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_dialogue_save/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_dialogue_save/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--turn-id",
+          "path": [
+            "turn_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_dialogue_save/properties/turn_id"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_dialogue_save/properties/content"
+          }
+        }
+      ],
+      "help": {
+        "summary": "保存本轮完整文学片段；scene_complete=true 时组装整幕引用。",
+        "effect": "写入：保存本轮片段；标记完成时组装正文引用并保存整幕作者包。",
+        "notes": [
+          "返回本轮fragment_event_id与scene_complete；整幕完成时同时返回整幕回执。",
+          "仅整幕收束review确需调整已有片段时传final_literary_text；它成为唯一当前正文，原始输入和已存轮次保留。dialogue.save仅scene_complete=true允许。完成并展示后仍等待反馈。",
+          "final_literary_text只进入最终正文，不重复存入原始片段；关闭前提交，关闭后修改走revision。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--turn-id",
+              "<turn_id>",
+              "--content-file",
+              "-"
+            ],
+            "content": {
+              "literary_text": "TEST_DIALOGUE_A",
+              "scene_complete": false,
+              "feedback": {}
+            }
+          }
+        ]
+      }
+    },
+    {
+      "operation": "dialogue.close",
+      "cli_name": "dialogue-close",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_dialogue_close"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_dialogue_close"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:dialogue_close",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_dialogue_close/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_dialogue_close/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_dialogue_close/properties/content"
+          }
+        }
+      ],
+      "help": {
+        "summary": "在全部轮次完成后保存必要收束并组装完整幕。",
+        "effect": "写入：保存可选收束片段，组装正文引用及整幕作者包；已关闭时复用回执。",
+        "notes": [
+          "追加所提交的收束文字，保留已有片段；返回整幕packet_event_id。",
+          "有序片段索引只保存在正文event的fragment_event_ids；作者包以narrative_event_id引用正文，不重复片段列表。",
+          "仅整幕收束review确需调整已有片段时传final_literary_text；它成为唯一当前正文，原始输入和已存轮次保留。dialogue.save仅scene_complete=true允许。完成并展示后仍等待反馈。",
+          "收幕提交前完成整幕review；关闭后同内容重试复用，修改final_literary_text/收束/反馈返回幂等冲突。已关闭稿的修改用同幕revision。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--content-file",
+              "-"
+            ],
+            "content": {
+              "closing_text": "TEST_CLOSING_A",
+              "feedback": {}
+            }
+          }
+        ]
+      }
+    },
+    {
+      "operation": "dialogue.read",
+      "cli_name": "dialogue-read",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_dialogue_read"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_dialogue_read"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:dialogue_read",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_dialogue_read/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_dialogue_read/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--fragment-event-id",
+          "path": [
+            "fragment_event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_dialogue_read/properties/fragment_event_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "恢复同幕完整输入与已输出片段，保持顺序。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "正式接收按作者成功回执的交付ID读取；省略ID仅用于恢复。指定ID须属于本幕且类型正确。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--fragment-event-id",
+              "<fragment_event_id>"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "operation": "business.save",
+      "cli_name": "business-save",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_business_save"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_business_save"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:business_save",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_business_save/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_business_save/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--kind",
+          "path": [
+            "kind"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_business_save/properties/kind"
+          }
+        },
+        {
+          "flag": "--key",
+          "path": [
+            "key"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_business_save/properties/key"
+          }
+        },
+        {
+          "flag": "--name",
+          "path": [
+            "name"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_business_save/properties/name"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_business_save/properties/content"
+          }
+        },
+        {
+          "flag": "--source-event-ids",
+          "path": [
+            "source_event_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_business_save/properties/source_event_ids"
+          }
+        },
+        {
+          "flag": "--event-id",
+          "path": [
+            "event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_business_save/properties/event_id"
+          }
+        },
+        {
+          "flag": "--event-action",
+          "path": [
+            "event_action"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_business_save/properties/event_action"
+          }
+        },
+        {
+          "flag": "--target-event-ids",
+          "path": [
+            "target_event_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_business_save/properties/target_event_ids"
+          }
+        }
+      ],
+      "help": {
+        "summary": "追加人物、记忆、事实、关系、规划、真相、设置或作者记事。",
+        "effect": "写入：追加业务event；已发布node在同一事务内进入updating并恢复active。",
+        "notes": [
+          "append累积新的经历、获知和关系变化，保留发生时点与来源；replace更正旧记录的事实/记录错误或同一时间与断言范围内的语义冲突，并在content中说明修订理由。",
+          "普通流程向本幕追加event，已发布node维护时updating→追加→active。候选保存在导演组织/交接记录，正式truth/plan只写选定内核。",
+          "replace/cancel必须明确非空target-event-ids，只影响指定的同object可见旧记录。后续append不恢复旧目标。",
+          "append/replace需要完整类别内容；cancel可省略content-file，或仅提供理由对象。目标列表由脚本包装进content，不在开放JSON里重复输入。",
+          "source-event-ids是内容来源；target-event-ids是替代/取消对象，两者不能混用。旧记录可include-history查询或context-read显式补查。",
+          "summarize摘要使用capsule-save；普通业务只用append/replace/cancel。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE",
+          "INVALID_EVENT_ACTION",
+          "INVALID_EVENT_ACTION_TARGET"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--kind",
+              "truth",
+              "--key",
+              "test-mystery",
+              "--content-file",
+              "<内容.json>"
+            ],
+            "content": {
+              "text": "TEST_DESIGN_A"
+            }
+          },
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--kind",
+              "role_memory",
+              "--key",
+              "player",
+              "--event-action",
+              "replace",
+              "--target-event-ids",
+              "<旧event_id>",
+              "--content-file",
+              "<内容.json>"
+            ],
+            "content": {
+              "character_id": "player",
+              "claim": "TEST_CORRECTED_MEMORY_A",
+              "revision_reason": "TEST_CORRECTION_REASON_A"
+            }
+          },
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--kind",
+              "role_memory",
+              "--key",
+              "player",
+              "--event-action",
+              "cancel",
+              "--target-event-ids",
+              "<旧event_id>"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "operation": "business.read",
+      "cli_name": "business-read",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_business_read"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_business_read"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:business_read",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_business_read/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_business_read/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--kind",
+          "path": [
+            "kind"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_business_read/properties/kind"
+          }
+        },
+        {
+          "flag": "--key",
+          "path": [
+            "key"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_business_read/properties/key"
+          }
+        },
+        {
+          "flag": "--include-history",
+          "path": [
+            "include_history"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_business_read/properties/include_history"
+          }
+        }
+      ],
+      "help": {
+        "summary": "读取本幕范围的当前采用内容，可附历史演变。",
+        "effect": "读取：不新增或修改创作记录。",
+        "notes": [
+          "current先执行路径内逐event替代/取消；history保留原始记录及控制event。cancel操作不作为当前文学资料返回。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--kind",
+              "truth"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "operation": "scene.display",
+      "cli_name": "scene-display",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_scene_display"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_scene_display"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:scene_display",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_display/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_display/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_display/properties/content"
+          }
+        },
+        {
+          "flag": "--output-root",
+          "path": [
+            "output_root"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_display/properties/output_root"
+          }
+        },
+        {
+          "flag": "--generate",
+          "path": [
+            "generate"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_display/properties/generate"
+          }
+        }
+      ],
+      "help": {
+        "summary": "保存展示信息并同步v6阅读页，先于语义归档。",
+        "effect": "写入：保存展示元信息、设置节点摘要指针，导出派生快照并按配置或参数生成HTML。",
+        "notes": [
+          "展示失败后正文仍已保存。",
+          "publication_status返回实际发布/仅快照/无变化；changed_node_ids/removed_node_ids来自快照比较，node_revision为目标正文摘要。首次展示元信息完整，归档不再同步。",
+          "新稿核对正文和阅读元信息对应的快照及HTML，不能仅凭正文hash判成功；恢复未指定output_root/generate时复用保存选择，独立导出其他位置用display-export。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--content-file",
+              "<内容.json>"
+            ],
+            "content": {
+              "summary": "TEST_SUMMARY_A",
+              "location": "TEST_LOCATION_A",
+              "time": "TEST_TIME_A",
+              "participants": [
+                "player"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "operation": "scene.archive",
+      "cli_name": "scene-archive",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_scene_archive"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_scene_archive"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:scene_archive",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_archive/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_archive/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_archive/properties/content"
+          }
+        },
+        {
+          "flag": "--output-root",
+          "path": [
+            "output_root"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_archive/properties/output_root"
+          }
+        }
+      ],
+      "help": {
+        "summary": "批量保存实际变化并发布node；不更新前端。",
+        "effect": "写入：保存业务event、归档回执和node发布状态；不生成快照/HTML，不触发阅读更新。",
+        "notes": [
+          "append累积新的经历、获知和关系变化，保留发生时点与来源；replace更正旧记录的事实/记录错误或同一时间与断言范围内的语义冲突，并在content中说明修订理由。",
+          "保存提交的提炼记录；重试复用同一内容。",
+          "每个events条目支持event_action和target_event_ids；按数组顺序写入，replace/cancel明确指向旧记录。cancel的content可省略。",
+          "候选不写正式truth/plan对象；普通归档使用append/replace/cancel，摘要单独用capsule-save。",
+          "来源索引仅保存在content；保存时校验来源范围，不生成creative_source关系。工作流object按类别在故事内复用。",
+          "output_root仅检查既有展示，首次完整展示由scene-display负责；归档及幂等重试均无前端发布。",
+          "content.default_source_event_ids供缺省条目继承；条目明确的source_event_ids（含[]）优先，标准化后参与首次保存和幂等比较。",
+          "旧显式分步兼容入口；新attempt必须先采纳，再经scene-maintenance受限归档，不能立即归档待反馈稿。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE",
+          "INVALID_EVENT_ACTION",
+          "INVALID_EVENT_ACTION_TARGET"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--content-file",
+              "<内容.json>"
+            ],
+            "content": {
+              "events": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "operation": "display.export",
+      "cli_name": "display-export",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_display_export"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_display_export"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:display_export",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--output-root",
+          "path": [
+            "output_root"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_display_export/properties/output_root"
+          }
+        },
+        {
+          "flag": "--generate",
+          "path": [
+            "generate"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_display_export/properties/generate"
+          }
+        }
+      ],
+      "help": {
+        "summary": "从SQLite导出只读展示数据并生成阅读页。",
+        "effect": "读取故事并写派生展示，不修改创作数据。",
+        "notes": [
+          "展示可包含多个分支；不会导出后台秘密、包、作者反馈或原始event。",
+          "publication_status返回实际发布/仅快照/无变化；changed_node_ids/removed_node_ids来自快照比较，node_revision为目标正文摘要。首次展示元信息完整，归档不再同步。"
+        ],
+        "errors": [
+          "SCENE_CONTEXT_MISSING",
+          "SOURCE_NOT_VISIBLE"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "operation": "node.delete",
+      "cli_name": "node-delete",
+      "storage_mode": "existing",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_node_delete"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_node_delete"
+      },
+      "handler": "script.workflow.pipeline.handlers.maintenance:delete",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_delete/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_delete/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--confirmation-token",
+          "path": [
+            "confirmation_token"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_delete/properties/confirmation_token"
+          }
+        },
+        {
+          "flag": "--user-confirmed",
+          "path": [
+            "user_confirmed"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_delete/properties/user_confirmed"
+          }
+        },
+        {
+          "flag": "--output-root",
+          "path": [
+            "output_root"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_delete/properties/output_root"
+          }
+        },
+        {
+          "flag": "--generate",
+          "path": [
+            "generate"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_delete/properties/generate"
+          }
+        },
+        {
+          "flag": "--include-target",
+          "path": [
+            "include_target"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_delete/properties/include_target"
+          }
+        }
+      ],
+      "help": {
+        "summary": "删除锚点后继或含目标的完整范围，多个节点必须独立确认。",
+        "effect": "写入：删除约定范围并同步派生展示；多节点首次调用只返回提案。",
+        "notes": [
+          "删除>1节点首次返回confirmation_required和proposal；不写数据库、不刷新展示。",
+          "确认后复用token及完全相同参数，增加--user-confirmed。范围变更重新确认。外部依赖先阻断；root不能包含删除。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--node-id",
+              "<节点ID>",
+              "--no-generate",
+              "--config",
+              "<故事配置>"
+            ]
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "operation": "node.rewrite",
+      "cli_name": "node-rewrite",
+      "storage_mode": "existing",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_node_rewrite"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_node_rewrite"
+      },
+      "handler": "script.workflow.pipeline.handlers.maintenance:rewrite",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_rewrite/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_rewrite/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--confirmation-token",
+          "path": [
+            "confirmation_token"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_rewrite/properties/confirmation_token"
+          }
+        },
+        {
+          "flag": "--user-confirmed",
+          "path": [
+            "user_confirmed"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_rewrite/properties/user_confirmed"
+          }
+        },
+        {
+          "flag": "--output-root",
+          "path": [
+            "output_root"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_rewrite/properties/output_root"
+          }
+        },
+        {
+          "flag": "--generate",
+          "path": [
+            "generate"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_rewrite/properties/generate"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_node_rewrite/properties/content"
+          }
+        }
+      ],
+      "help": {
+        "summary": "删除旧幕及后继，从存活父节点创建新ID草稿。",
+        "effect": "写入：同一事务内删除范围并创建新幕，再同步派生展示；多节点首次调用只返回提案。",
+        "notes": [
+          "多节点删除先独立确认。删除与新幕初始化同事务；不把旧正文/后继秘密交给作者。返回scene接正常作者、展示、归档。",
+          "指定分支取得存活父节点唯一head，其他无head分支对象保留；失败回滚。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--node-id",
+              "<节点ID>",
+              "--content-file",
+              "<重创输入.json>",
+              "--no-generate",
+              "--config",
+              "<故事配置>"
+            ],
+            "content": {
+              "raw_user_messages": [
+                {
+                  "text": "重新创作这一幕。",
+                  "source": "simulation"
+                }
+              ]
+            }
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "operation": "story.list",
+      "cli_name": "story-list",
+      "storage_mode": "library",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_story_list"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_story_list"
+      },
+      "handler": "script.workflow.pipeline.handlers.management:stories",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--environment",
+          "path": [
+            "environment"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_story_list/properties/environment"
+          }
+        }
+      ],
+      "help": {
+        "summary": "列出指定存储根的故事元数据，不展开其他故事正文。",
+        "effect": "读取：扫描指定存储根下的故事目录，返回故事与分支元数据。",
+        "notes": [],
+        "examples": [
+          {
+            "arguments": [
+              "--environment",
+              "debug"
+            ]
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "operation": "story.info",
+      "cli_name": "story-info",
+      "storage_mode": "existing",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_story_info"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_story_info"
+      },
+      "handler": "script.workflow.pipeline.handlers.management:info",
+      "containers": [],
+      "bindings": [],
+      "help": {
+        "summary": "读取故事、节点数量与分支元数据。",
+        "effect": "读取：返回当前故事身份、生命周期、记录数量及分支元数据。",
+        "notes": [],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>"
+            ]
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "operation": "branch.list",
+      "cli_name": "branch-list",
+      "storage_mode": "existing",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_branch_list"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_branch_list"
+      },
+      "handler": "script.workflow.pipeline.handlers.management:branches",
+      "containers": [],
+      "bindings": [],
+      "help": {
+        "summary": "列出分支head及独立业务生命周期。",
+        "effect": "读取：返回分支身份、head及业务生命周期。",
+        "notes": [],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>"
+            ]
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "operation": "story.state",
+      "cli_name": "story-state-set",
+      "storage_mode": "existing",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_story_state"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_story_state"
+      },
+      "handler": "script.workflow.pipeline.handlers.management:story_state",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--lifecycle",
+          "path": [
+            "lifecycle"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_story_state/properties/lifecycle"
+          }
+        },
+        {
+          "flag": "--reason",
+          "path": [
+            "reason"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_story_state/properties/reason"
+          }
+        }
+      ],
+      "help": {
+        "summary": "标记故事归档或恢复；不移动数据库。",
+        "effect": "写入：追加故事生命周期event；相同状态直接复用，不移动数据库。",
+        "notes": [
+          "归档阻止新创作，不阻止读取和管理恢复；展示同步使用display-export。状态是业务event，不是event.state。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--lifecycle",
+              "archived",
+              "--config",
+              "<故事配置>"
+            ]
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "operation": "branch.state",
+      "cli_name": "branch-state-set",
+      "storage_mode": "existing",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_branch_state"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_branch_state"
+      },
+      "handler": "script.workflow.pipeline.handlers.management:branch_state",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_branch_state/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--lifecycle",
+          "path": [
+            "lifecycle"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_branch_state/properties/lifecycle"
+          }
+        },
+        {
+          "flag": "--reason",
+          "path": [
+            "reason"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_branch_state/properties/reason"
+          }
+        }
+      ],
+      "help": {
+        "summary": "设置分支完成/弃置/开放，不改变head关系。",
+        "effect": "写入：追加分支生命周期event；相同状态直接复用，不改变head。",
+        "notes": [],
+        "examples": [
+          {
+            "arguments": [
+              "--branch-id",
+              "main",
+              "--lifecycle",
+              "completed",
+              "--config",
+              "<故事配置>"
+            ]
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "operation": "history.search",
+      "cli_name": "history-search",
+      "storage_mode": "existing",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_history_search"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_history_search"
+      },
+      "handler": "script.workflow.pipeline.handlers.history:search",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_search/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--at-node-id",
+          "path": [
+            "at_node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_search/properties/at_node_id"
+          }
+        },
+        {
+          "flag": "--scene-node-id",
+          "path": [
+            "scene_node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_search/properties/scene_node_id"
+          }
+        },
+        {
+          "flag": "--keyword",
+          "path": [
+            "keyword"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_search/properties/keyword"
+          }
+        },
+        {
+          "flag": "--offset",
+          "path": [
+            "offset"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_search/properties/offset"
+          }
+        },
+        {
+          "flag": "--limit",
+          "path": [
+            "limit"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_search/properties/limit"
+          }
+        },
+        {
+          "flag": "--keywords",
+          "path": [
+            "keywords"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_search/properties/keywords"
+          }
+        }
+      ],
+      "help": {
+        "summary": "在限定历史正文/摘要中返回段落命中与正文版本ID。",
+        "effect": "读取：在指定历史范围搜索正文/摘要，返回段落命中与正文版本ID。",
+        "notes": [
+          "keyword与keywords二选一；多词返回results分组，各词独立limit/offset，总范围只装载一次。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--branch-id",
+              "main",
+              "--keyword",
+              "铃声",
+              "--config",
+              "<故事配置>"
+            ]
+          },
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--keywords",
+              "铃声",
+              "兔子"
+            ]
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "operation": "history.read",
+      "cli_name": "history-read",
+      "storage_mode": "existing",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_history_read"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_history_read"
+      },
+      "handler": "script.workflow.pipeline.handlers.history:read",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_read/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--at-node-id",
+          "path": [
+            "at_node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_read/properties/at_node_id"
+          }
+        },
+        {
+          "flag": "--scene-node-id",
+          "path": [
+            "scene_node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_read/properties/scene_node_id"
+          }
+        },
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_read/properties/node_id"
+          }
+        },
+        {
+          "flag": "--narrative-event-id",
+          "path": [
+            "narrative_event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_read/properties/narrative_event_id"
+          }
+        },
+        {
+          "flag": "--view",
+          "path": [
+            "view"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_read/properties/view"
+          }
+        }
+      ],
+      "help": {
+        "summary": "读取范围内原幕或明确正文版本及段落。",
+        "effect": "读取：展开指定范围内的正文版本、摘要和分段文本。",
+        "notes": [
+          "默认prose不返回重复paragraphs；paragraphs仅段落，full用于需要二者的诊断。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--branch-id",
+              "main",
+              "--node-id",
+              "<节点ID>",
+              "--config",
+              "<故事配置>"
+            ]
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "operation": "context.inspect",
+      "cli_name": "context-inspect",
+      "storage_mode": "existing",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_context_inspect"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_context_inspect"
+      },
+      "handler": "script.workflow.pipeline.handlers.history:inspect",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_inspect/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--at-node-id",
+          "path": [
+            "at_node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_inspect/properties/at_node_id"
+          }
+        },
+        {
+          "flag": "--scene-node-id",
+          "path": [
+            "scene_node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_context_inspect/properties/scene_node_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "不开新幕读取指定路径的业务视图。",
+        "effect": "读取：在指定路径或本幕固定范围生成业务视图，不创建新幕。",
+        "notes": [],
+        "examples": [
+          {
+            "arguments": [
+              "--branch-id",
+              "main",
+              "--config",
+              "<故事配置>"
+            ]
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "operation": "capsule.check",
+      "cli_name": "capsule-check",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_capsule_check"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_capsule_check"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:capsule_check",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_capsule_check/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_capsule_check/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--object-ids",
+          "path": [
+            "object_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_capsule_check/properties/object_ids"
+          }
+        },
+        {
+          "flag": "--view",
+          "path": [
+            "view"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_capsule_check/properties/view"
+          }
+        }
+      ],
+      "help": {
+        "summary": "按本幕范围批量检查对象的两级摘要批次与重建需求。",
+        "effect": "读取：不新增、修改记录或执行文学总结。",
+        "notes": [
+          "开启后使用本幕固定世界线范围。",
+          "一级归纳有效append/replace；二级归纳有效一级摘要。摘要视图状态与event.state分开，摘要不进入普通内容投影。",
+          "过时批次按原批次剩余有效来源重建；二级依赖其一级来源的重建结果。",
+          "supersedes_capsule_event_ids只接替同object同级摘要；event_action始终summarize。原文和旧摘要仍可定向查询。",
+          "全批次来源已取消时可保存summary为空的接替记录，source_event_ids为空；该空摘要不进入默认概览。",
+          "默认jobs省略空闲对象，checked_count/idle_count/deferred_batch_count保留检查汇总；需要全对象审计显式选full。原始批次、预算、范围与来源不变。"
+        ],
+        "errors": [
+          "CAPSULE_DISABLED",
+          "CAPSULE_OBJECT_DISABLED",
+          "INVALID_CAPSULE",
+          "SOURCE_NOT_VISIBLE",
+          "IDEMPOTENCY_CONFLICT"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--object-ids",
+              "role_memory_player"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "operation": "capsule.read",
+      "cli_name": "capsule-read",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_capsule_read"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_capsule_read"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:capsule_read",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_capsule_read/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_capsule_read/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--object-ids",
+          "path": [
+            "object_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_capsule_read/properties/object_ids"
+          }
+        },
+        {
+          "flag": "--include-history",
+          "path": [
+            "include_history"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_capsule_read/properties/include_history"
+          }
+        }
+      ],
+      "help": {
+        "summary": "读取对象的有效两级概览及可选历史状态。",
+        "effect": "读取：不新增、修改记录或执行文学总结。",
+        "notes": [
+          "capsule_mode开启后，按本幕固定范围读取对象摘要。",
+          "overview由全部有效二级及未被有效二级覆盖的有效一级组成；include-history同时返回摘要版本及其有效、过时或被接替状态。",
+          "摘要与精确event分别组织；原始来源可通过context-read定向查询。"
+        ],
+        "errors": [
+          "CAPSULE_DISABLED",
+          "CAPSULE_OBJECT_DISABLED",
+          "INVALID_CAPSULE",
+          "SOURCE_NOT_VISIBLE",
+          "IDEMPOTENCY_CONFLICT"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--object-ids",
+              "role_memory_player"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "operation": "capsule.save",
+      "cli_name": "capsule-save",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_capsule_save"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_capsule_save"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:capsule_save",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_capsule_save/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_capsule_save/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_capsule_save/properties/content"
+          }
+        },
+        {
+          "flag": "--include-next-jobs",
+          "path": [
+            "include_next_jobs"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_capsule_save/properties/include_next_jobs"
+          }
+        }
+      ],
+      "help": {
+        "summary": "批量追加两级摘要与接替版本，生成元信息并返回回执。",
+        "effect": "写入：原子保存整个摘要批次；不修改原event或生成来源relation。",
+        "notes": [
+          "开启后使用本幕固定世界线范围。",
+          "一级归纳有效append/replace；二级归纳有效一级摘要。摘要视图状态与event.state分开，摘要不进入普通内容投影。",
+          "先capsule-check取得来源批次，按原ID与级别填写开放content；_capsule元信息由脚本生成，不手填。",
+          "过时批次按原批次剩余有效来源重建；二级依赖其一级来源的重建结果。",
+          "supersedes_capsule_event_ids只接替同object同级摘要；event_action始终summarize。原文和旧摘要仍可定向查询。",
+          "全批次来源已取消时可保存summary为空的接替记录，source_event_ids为空；该空摘要不进入默认概览。",
+          "默认next_jobs返回本次涉及对象的后续任务，可直接继续二级；不自动撰写摘要。关闭include_next_jobs可仅取回执。next_jobs随当前视图变化，不参与已保存摘要的幂等身份。"
+        ],
+        "errors": [
+          "CAPSULE_DISABLED",
+          "CAPSULE_OBJECT_DISABLED",
+          "INVALID_CAPSULE",
+          "SOURCE_NOT_VISIBLE",
+          "IDEMPOTENCY_CONFLICT"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--content-file",
+              "-"
+            ],
+            "content": {
+              "capsules": [
+                {
+                  "object_id": "role_memory_player",
+                  "level": 1,
+                  "source_event_ids": [
+                    "<来源event_id>"
+                  ],
+                  "supersedes_capsule_event_ids": [],
+                  "content": {
+                    "summary": "TEST_LONG_TERM_OVERVIEW"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "operation": "history.list",
+      "cli_name": "history-list",
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.history:list_scenes",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_history_list"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_history_list"
+      },
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_list/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--at-node-id",
+          "path": [
+            "at_node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_list/properties/at_node_id"
+          }
+        },
+        {
+          "flag": "--scene-node-id",
+          "path": [
+            "scene_node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_list/properties/scene_node_id"
+          }
+        },
+        {
+          "flag": "--limit",
+          "path": [
+            "limit"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_list/properties/limit"
+          }
+        },
+        {
+          "flag": "--offset",
+          "path": [
+            "offset"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_history_list/properties/offset"
+          }
+        }
+      ],
+      "help": {
+        "summary": "查询最近历史幕的真实正文/摘要指针和阅读索引。",
+        "effect": "只读，不创建场景。",
+        "notes": [
+          "默认最近10幕；offset跳过较近幕，本页按叙事顺序返回。",
+          "scene-node-id使用本幕固定前驱范围；摘要由实际summary_event_id读取，不猜事件类型。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--limit",
+              "10"
+            ]
+          }
+        ],
+        "errors": [
+          "SOURCE_NOT_VISIBLE"
+        ]
+      }
+    },
+    {
+      "operation": "scene.prepare",
+      "cli_name": "scene-prepare",
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:scene_prepare",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_scene_prepare"
+      },
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--mode",
+          "path": [
+            "mode"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare/properties/mode"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare/properties/content"
+          }
+        },
+        {
+          "flag": "--scene-need",
+          "path": [
+            "scene_need"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare/properties/scene_need"
+          }
+        },
+        {
+          "flag": "--character-ids",
+          "path": [
+            "character_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare/properties/character_ids"
+          }
+        },
+        {
+          "flag": "--event-ids",
+          "path": [
+            "event_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare/properties/event_ids"
+          }
+        },
+        {
+          "flag": "--object-ids",
+          "path": [
+            "object_ids"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare/properties/object_ids"
+          }
+        },
+        {
+          "flag": "--view",
+          "path": [
+            "view"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare/properties/view"
+          }
+        },
+        {
+          "flag": "--action",
+          "path": [
+            "action"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare/properties/action"
+          }
+        },
+        {
+          "flag": "--request-id",
+          "path": [
+            "request_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare/properties/request_id"
+          }
+        },
+        {
+          "flag": "--revision-kind",
+          "path": [
+            "revision_kind"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare/properties/revision_kind"
+          }
+        },
+        {
+          "flag": "--base-author-packet-event-id",
+          "path": [
+            "base_author_packet_event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare/properties/base_author_packet_event_id"
+          }
+        },
+        {
+          "flag": "--expected-author-packet-event-id",
+          "path": [
+            "expected_author_packet_event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare/properties/expected_author_packet_event_id"
+          }
+        },
+        {
+          "flag": "--output-root",
+          "path": [
+            "output_root"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_prepare/properties/output_root"
+          }
+        }
+      ],
+      "help": {
+        "summary": "开幕/恢复并返回默认compact召回；正常单Agent入口。",
+        "effect": "写入或恢复：明确action编排同幕修订、轻量采纳和后继开幕；召回在事务提交后进行。",
+        "notes": [
+          "新流程显式action=next及稳定request_id；待反馈head需expected_author_packet_event_id且已实际展示，原子采纳后开启后继。",
+          "revise使用同node和当前base_author_packet_event_id；minor不召回且preparation=null，major按固定历史准备并保存新导演包。",
+          "resume用原node恢复，无需content；已有正文/展示不重复召回。省略action保留旧分步行为，不自动采纳。",
+          "同request_id不同原始输入或修订基准报冲突；错误details保留成功node。复用ID恢复，不新开幕。",
+          "正常召回使用已采纳前幕；最新/旧草稿不自动展开。默认projection，--output-file完整转储；不在batch事务中执行。",
+          "空白branch-fork草稿直接开幕，不将其当作待采纳作品。resume已有有效导演包时返回作者/交互步骤，不重新召回；旧未完成节点无attempt且无完整稿时，显式request_id可接入新流程。",
+          "resume在展示后返回maintenance及maintenance_trigger_author_packet_event_id；历史待办的head尚未展示时返回resume_node_id，先恢复该head。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--content-file",
+              "<内容.json>",
+              "--action",
+              "next",
+              "--request-id",
+              "<请求ID>"
+            ],
+            "content": {
+              "raw_user_messages": [
+                {
+                  "text": "继续故事",
+                  "source": "simulation"
+                }
+              ]
+            }
+          },
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--action",
+              "resume"
+            ]
+          },
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--action",
+              "revise",
+              "--revision-kind",
+              "minor",
+              "--request-id",
+              "<新请求ID>",
+              "--base-author-packet-event-id",
+              "<当前作者包ID>",
+              "--content-file",
+              "<内容.json>"
+            ],
+            "content": {
+              "raw_user_messages": [
+                {
+                  "text": "修改最后的反应，保留其余内容。",
+                  "source": "simulation"
+                }
+              ]
+            }
+          }
+        ],
+        "errors": [
+          "COMPOSITE_IN_BATCH",
+          "DISPLAY_FAILED",
+          "STALE_MANUSCRIPT",
+          "DRAFT_NOT_ADOPTED",
+          "MANUSCRIPT_ACCEPTED",
+          "MAINTENANCE_SCOPE"
+        ]
+      }
+    },
+    {
+      "operation": "scene.submit",
+      "cli_name": "scene-submit",
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:scene_submit",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_scene_submit"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_scene_submit"
+      },
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_submit/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_submit/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--output-root",
+          "path": [
+            "output_root"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_submit/properties/output_root"
+          }
+        },
+        {
+          "flag": "--generate",
+          "path": [
+            "generate"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_submit/properties/generate"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_submit/properties/content"
+          }
+        },
+        {
+          "flag": "--author-packet-event-id",
+          "path": [
+            "author_packet_event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_submit/properties/author_packet_event_id"
+          }
+        },
+        {
+          "flag": "--source-packet-event-id",
+          "path": [
+            "source_packet_event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_submit/properties/source_packet_event_id"
+          }
+        },
+        {
+          "flag": "--attempt-id",
+          "path": [
+            "attempt_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_submit/properties/attempt_id"
+          }
+        }
+      ],
+      "help": {
+        "summary": "提交完整作品并展示一次，或复用已完成作者包恢复展示。",
+        "effect": "按持久化阶段编排；SQL事务提交后才进行外部展示生成。",
+        "notes": [
+          "新作品：source-packet-event-id必填，content含literary_text、按需feedback及display；未知作者表意键随正文保存。",
+          "复用：author-packet-event-id必填，content只含display；适用于已完成交互幕或正文已保存的恢复，不重新提交全文。",
+          "展示失败时error.details返回已保存正文/作者包ID和author_saved阶段；使用同一作品与元信息重试。成功回执不返回全文。",
+          "禁止放入batch外层事务。review后的当前稿展示成功进入awaiting_feedback，不归档它；maintenance返回较早采用幕待办，新幕展示后再处理。published仅指采用，不等于维护完成。",
+          "展示材料的输入ID、实际导演来源、output_root及是否要求HTML绑定到稿件；恢复省略展示控制时复用保存的选择。后续讨论不改变已展示稿身份。",
+          "页面已展示而维护发现失败时，error.details.completed_stage=display_published；复用scene-prepare(resume)或scene-maintenance恢复，不重写正文。"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--source-packet-event-id",
+              "<导演包ID>",
+              "--content-file",
+              "<内容.json>",
+              "--attempt-id",
+              "<attempt_id>"
+            ],
+            "content": {
+              "literary_text": "正文。",
+              "display": {
+                "summary": "摘要",
+                "location": "地点",
+                "time": "时间",
+                "participants": []
+              }
+            }
+          },
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--node-id",
+              "<node_id>",
+              "--author-packet-event-id",
+              "<已完成作者包ID>",
+              "--content-file",
+              "<内容.json>",
+              "--attempt-id",
+              "<attempt_id>"
+            ],
+            "content": {
+              "display": {
+                "summary": "摘要",
+                "location": "地点",
+                "time": "时间",
+                "participants": []
+              }
+            }
+          }
+        ],
+        "errors": [
+          "COMPOSITE_IN_BATCH",
+          "DISPLAY_FAILED",
+          "STALE_MANUSCRIPT",
+          "DRAFT_NOT_ADOPTED",
+          "MANUSCRIPT_ACCEPTED",
+          "MAINTENANCE_SCOPE"
+        ]
+      }
+    },
+    {
+      "operation": "scene.accept",
+      "cli_name": "scene-accept",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_scene_accept"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_scene_accept"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:scene_accept",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--node-id",
+          "path": [
+            "node_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_accept/properties/node_id"
+          }
+        },
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_accept/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--author-packet-event-id",
+          "path": [
+            "author_packet_event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_accept/properties/author_packet_event_id"
+          }
+        },
+        {
+          "flag": "--request-id",
+          "path": [
+            "request_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_accept/properties/request_id"
+          }
+        },
+        {
+          "flag": "--output-root",
+          "path": [
+            "output_root"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_accept/properties/output_root"
+          }
+        }
+      ],
+      "help": {
+        "summary": "固定正文采用稿，不做语义归档。",
+        "effect": "写入：固定采用回执；同稿重试复用。",
+        "notes": [
+          "仅明确要求定稿/结束且不创建下一幕时使用；暂停和讨论不采纳。核对当前完整稿及实际展示，返回维护任务，不刷新前端。",
+          "同稿重复采纳复用回执；node active仅代表正文已采纳，pending阶段仍需scene-maintenance。",
+          "采纳已提交而维护发现失败时，details.completed_stage=manuscript_accepted；从原稿的维护阶段恢复，不重新采用另一稿。"
+        ],
+        "errors": [
+          "STALE_MANUSCRIPT",
+          "MAINTENANCE_SCOPE",
+          "DRAFT_NOT_ADOPTED",
+          "MANUSCRIPT_ACCEPTED"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--node-id",
+              "<node_id>",
+              "--author-packet-event-id",
+              "<作者包ID>",
+              "--request-id",
+              "<请求ID>"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "operation": "scene.maintenance",
+      "cli_name": "scene-maintenance",
+      "input_schema": {
+        "$ref": "urn:open-story:agent#/definitions/operation_scene_maintenance"
+      },
+      "output_schema": {
+        "$ref": "urn:open-story:agent#/definitions/result_scene_maintenance"
+      },
+      "storage_mode": "existing",
+      "handler": "script.workflow.pipeline.handlers.creative:scene_maintenance",
+      "containers": [],
+      "bindings": [
+        {
+          "flag": "--branch-id",
+          "path": [
+            "branch_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_maintenance/properties/branch_id"
+          }
+        },
+        {
+          "flag": "--trigger-author-packet-event-id",
+          "path": [
+            "trigger_author_packet_event_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_maintenance/properties/trigger_author_packet_event_id"
+          }
+        },
+        {
+          "flag": "--job-id",
+          "path": [
+            "job_id"
+          ],
+          "kind": "value",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_maintenance/properties/job_id"
+          }
+        },
+        {
+          "flag": "--content-file",
+          "path": [
+            "content"
+          ],
+          "kind": "json_file",
+          "schema": {
+            "$ref": "urn:open-story:agent#/definitions/operation_scene_maintenance/properties/content"
+          }
+        }
+      ],
+      "help": {
+        "summary": "展示后编排前幕语义归档与Capsule后续任务。",
+        "effect": "读取或写入：无content取待办；有content执行对应批次；不刷新前端。",
+        "notes": [
+          "trigger_author_packet_event_id必须是已实际展示的当前分支head作者包。无content查询或恢复待办；首次发现会保存独立维护范围，非纯只读。",
+          "按next_job.phase提交events或capsules，必须携job_id；保存后返回下一批/必要二级或complete，无需另行capsule-check。",
+          "只维护已采纳节点，不移动head，不修改正文/摘要指针、不刷新前端；迟写内容不回填后幕已固定scope。",
+          "同批次重试复用原job与内容；来源禁止来自后幕或其他分支。Capsule关闭、空闲对象由API跳过。",
+          "固定范围同时限制目标幕本地资料；冻结后只纳入本任务产生的归档和Capsule。Capsule的maintenance_job_id由API生成，Agent不填写。共享祖先可从当前可见分支完成同一采用稿任务。"
+        ],
+        "errors": [
+          "STALE_MANUSCRIPT",
+          "MAINTENANCE_SCOPE",
+          "DRAFT_NOT_ADOPTED",
+          "MANUSCRIPT_ACCEPTED"
+        ],
+        "examples": [
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--trigger-author-packet-event-id",
+              "<已展示作者包ID>"
+            ]
+          },
+          {
+            "arguments": [
+              "--config",
+              "<故事配置>",
+              "--branch-id",
+              "main",
+              "--trigger-author-packet-event-id",
+              "<当前已展示作者包ID>",
+              "--job-id",
+              "<next_job.job_id>",
+              "--content-file",
+              "<内容.json>"
+            ],
+            "content": {
+              "events": []
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

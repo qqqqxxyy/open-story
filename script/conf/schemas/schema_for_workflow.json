@@ -1,0 +1,299 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:open-story:workflow",
+  "definitions": {
+    "event_owner": {
+      "type": "object",
+      "properties": {
+        "node_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "object_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "relation": {
+          "$ref": "urn:open-story:data#/definitions/relation"
+        }
+      },
+      "required": [
+        "node_id",
+        "object_id",
+        "relation"
+      ],
+      "additionalProperties": false
+    },
+    "deletion_context": {
+      "type": "object",
+      "properties": {
+        "node_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "predecessor_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "event_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "relation_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "external_references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "entity": {
+                "type": "string",
+                "minLength": 1
+              },
+              "record_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "relation_type": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "entity",
+              "record_id",
+              "relation_type"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "node_id",
+        "predecessor_id",
+        "event_ids",
+        "relation_ids",
+        "external_references"
+      ],
+      "additionalProperties": false
+    },
+    "range_deletion_context": {
+      "type": "object",
+      "properties": {
+        "event_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "relation_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "branch_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "external_references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "entity": {
+                "type": "string",
+                "minLength": 1
+              },
+              "record_id": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "entity",
+              "record_id"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "event_ids",
+        "relation_ids",
+        "branch_ids",
+        "external_references"
+      ],
+      "additionalProperties": false
+    },
+    "workflow_objects": {
+      "description": "故事内按类别复用的工作流object映射；event的type_name和node归属保持独立。",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "key",
+          "name"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "capsule_config": {
+      "type": "object",
+      "properties": {
+        "defaults": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "level_1_events": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "level_2_capsules": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "level_1_target_characters": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "level_2_target_characters": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "enabled",
+            "level_1_events",
+            "level_2_capsules",
+            "level_1_target_characters",
+            "level_2_target_characters"
+          ],
+          "additionalProperties": false
+        },
+        "kinds": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "type": "boolean"
+              },
+              "level_1_events": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "level_2_capsules": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "level_1_target_characters": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "level_2_target_characters": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "max_batches_per_check": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "defaults",
+        "kinds",
+        "max_batches_per_check"
+      ],
+      "additionalProperties": false
+    },
+    "reading_config": {
+      "type": "object",
+      "properties": {
+        "prose_page_characters": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "prose_page_characters"
+      ],
+      "additionalProperties": false
+    },
+    "prose_cursor": {
+      "type": "object",
+      "properties": {
+        "scope_key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "node_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "narrative_event_ids": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "minItems": 1
+        },
+        "node_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "character_offset": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "scope_key",
+        "node_ids",
+        "narrative_event_ids",
+        "node_index",
+        "character_offset"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "operation": "record.delete",
+  "params": {
+    "entity": "object",
+    "record_id": "manual-memory-player"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "operation": "events.query",
+  "params": {
+    "branch_id": "main",
+    "object_ids": [
+      "role_memory_player"
+    ],
+    "event_types": [
+      "role_memory"
+    ],
+    "fields": [
+      "event_id",
+      "content"
+    ],
+    "include_total": false
+  }
+}

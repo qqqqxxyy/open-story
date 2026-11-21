@@ -1,0 +1,8 @@
+{
+  "operation": "object.events",
+  "params": {
+    "object_id": "role_memory_player",
+    "limit": 100,
+    "branch_id": "main"
+  }
+}

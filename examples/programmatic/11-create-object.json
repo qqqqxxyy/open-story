@@ -1,0 +1,9 @@
+{
+  "operation": "object.ensure",
+  "params": {
+    "object_id": "manual-memory-player",
+    "object_type": "role_memory",
+    "object_key": "manual_player",
+    "name": "示例主角记忆（人工练习）"
+  }
+}

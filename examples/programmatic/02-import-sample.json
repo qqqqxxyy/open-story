@@ -1,0 +1,6 @@
+{
+  "operation": "sample.import_v5",
+  "params": {
+    "source_story": "<SOURCE_STORY>"
+  }
+}

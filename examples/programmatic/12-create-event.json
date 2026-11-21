@@ -1,0 +1,27 @@
+{
+  "operation": "event.create",
+  "params": {
+    "node_id": "manual-node-2",
+    "object": {
+      "object_id": "manual-memory-player",
+      "object_type": "role_memory",
+      "object_key": "manual_player",
+      "name": "示例主角记忆（人工练习）"
+    },
+    "event": {
+      "event_id": "manual-memory-1",
+      "event_type": "role_memory",
+      "type_name": "manual_player",
+      "content": {
+        "character_id": "player",
+        "claim": "示例主角记得铃声比往常提前响了。",
+        "kind": "observed",
+        "source": {
+          "说明": "人工编排练习"
+        },
+        "再次召回条件": "下次听到同样的提前铃声"
+      }
+    },
+    "branch_id": "main"
+  }
+}

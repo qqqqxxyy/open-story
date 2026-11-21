@@ -1,0 +1,9 @@
+{
+  "operation": "object.events",
+  "params": {
+    "object_id": "manual-memory-player",
+    "state": "active",
+    "limit": 100,
+    "branch_id": "main"
+  }
+}

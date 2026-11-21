@@ -1,0 +1,7 @@
+{
+  "operation": "node.publish",
+  "params": {
+    "node_id": "manual-node-2",
+    "branch_id": "main"
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Open Story"
+  short_description: "创作独立故事，支持完整幕与同幕交互，使用SQLite维护连续性"
+  default_prompt: "Use $open-story to create or continue my independent story with scoped director-author workflows."

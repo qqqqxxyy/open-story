@@ -1,0 +1,24 @@
+{
+  "operation": "event.create",
+  "params": {
+    "node_id": "manual-node-2",
+    "object": {
+      "object_id": "manual-summary",
+      "object_type": "scene_summary",
+      "object_key": "manual_summary",
+      "name": "人工练习摘要"
+    },
+    "event": {
+      "event_id": "manual-summary-1",
+      "event_type": "scene_summary",
+      "type_name": "manual_summary",
+      "content": {
+        "summary": "示例主角发现铃声提前，暂未确认原因。",
+        "time": "上午课间",
+        "location": "教室"
+      }
+    },
+    "select_as": "summary",
+    "branch_id": "main"
+  }
+}

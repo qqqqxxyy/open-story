@@ -1,0 +1,39 @@
+{
+  "default": {
+    "targets": "exactly_one"
+  },
+  "types": {
+    "event": {
+      "key_type": "event",
+      "required_targets": [
+        "node",
+        "object"
+      ],
+      "allowed_targets": [
+        "node",
+        "object"
+      ],
+      "state": "active"
+    },
+    "branch_head": {
+      "key_type": "object",
+      "required_targets": [
+        "node"
+      ],
+      "allowed_targets": [
+        "node"
+      ],
+      "state": "active"
+    },
+    "event_action_target": {
+      "key_type": "event",
+      "required_targets": [
+        "event"
+      ],
+      "allowed_targets": [
+        "event"
+      ],
+      "state": "active"
+    }
+  }
+}

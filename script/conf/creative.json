@@ -1,0 +1,276 @@
+{
+  "capsule_mode": true,
+  "recall": {
+    "gram_widths": [
+      2,
+      3
+    ],
+    "memory_recent": 12,
+    "memory_related": 8,
+    "world_fact_limit": 24,
+    "thread_limit": 12,
+    "historical_trace_limit": 8,
+    "relationship_limit": 6,
+    "lookup_limit": 25,
+    "input_characters": 4000,
+    "need_characters": 2000,
+    "previous_characters": 2000,
+    "profile_recent": 12,
+    "profile_related": 8
+  },
+  "profile": {
+    "default_player_id": "player",
+    "name_path": "name"
+  },
+  "categories": {
+    "role_profile": {
+      "event_types": [
+        "role_profile",
+        "characters"
+      ],
+      "identity_paths": [
+        "character_id",
+        "id"
+      ],
+      "text_paths": [],
+      "schema": {
+        "$ref": "urn:open-story:agent#/definitions/content_role_profile"
+      }
+    },
+    "role_memory": {
+      "event_types": [
+        "role_memory",
+        "character_memories"
+      ],
+      "identity_paths": [
+        "character_id"
+      ],
+      "text_paths": [
+        "claim",
+        "text"
+      ],
+      "schema": {
+        "$ref": "urn:open-story:agent#/definitions/content_role_memory"
+      }
+    },
+    "world_fact": {
+      "event_types": [
+        "world_fact",
+        "active_facts",
+        "facts",
+        "fact_replacement",
+        "fact_supersession"
+      ],
+      "identity_paths": [
+        "target_id",
+        "id"
+      ],
+      "text_paths": [
+        "text",
+        "claim"
+      ],
+      "schema": {
+        "$ref": "urn:open-story:agent#/definitions/content_world_fact"
+      }
+    },
+    "thread": {
+      "event_types": [
+        "thread",
+        "open_threads",
+        "threads",
+        "thread_update",
+        "thread_close"
+      ],
+      "identity_paths": [
+        "id"
+      ],
+      "text_paths": [
+        "text"
+      ],
+      "schema": {
+        "$ref": "urn:open-story:agent#/definitions/content_thread"
+      }
+    },
+    "historical_trace": {
+      "event_types": [
+        "historical_trace",
+        "historical_traces",
+        "trace_update",
+        "trace_close"
+      ],
+      "identity_paths": [
+        "id"
+      ],
+      "text_paths": [
+        "text"
+      ],
+      "schema": {
+        "$ref": "urn:open-story:agent#/definitions/content_historical_trace"
+      }
+    },
+    "relationship": {
+      "event_types": [
+        "relationship",
+        "relationships"
+      ],
+      "identity_paths": [
+        "id"
+      ],
+      "text_paths": [
+        "text",
+        "description"
+      ],
+      "schema": {
+        "$ref": "urn:open-story:agent#/definitions/content_relationship"
+      }
+    },
+    "story_setting": {
+      "event_types": [
+        "story_setting"
+      ],
+      "identity_paths": [],
+      "text_paths": [
+        "text"
+      ]
+    },
+    "plan": {
+      "event_types": [
+        "plan"
+      ],
+      "identity_paths": [],
+      "text_paths": [
+        "text"
+      ],
+      "schema": {
+        "$ref": "urn:open-story:agent#/definitions/content_design"
+      }
+    },
+    "truth": {
+      "event_types": [
+        "truth"
+      ],
+      "identity_paths": [],
+      "text_paths": [
+        "text"
+      ],
+      "schema": {
+        "$ref": "urn:open-story:agent#/definitions/content_design"
+      }
+    },
+    "secret": {
+      "event_types": [
+        "secret"
+      ],
+      "identity_paths": [],
+      "text_paths": [
+        "text"
+      ],
+      "schema": {
+        "$ref": "urn:open-story:agent#/definitions/content_design"
+      }
+    },
+    "author_notes": {
+      "event_types": [
+        "author_notes",
+        "author_notebook"
+      ],
+      "identity_paths": [],
+      "text_paths": [
+        "text"
+      ],
+      "schema": {
+        "$ref": "urn:open-story:agent#/definitions/content_author_notes"
+      }
+    },
+    "user_input": {
+      "event_types": [
+        "user_input"
+      ],
+      "identity_paths": [
+        "id"
+      ],
+      "text_paths": [
+        "text"
+      ],
+      "schema": {
+        "$ref": "urn:open-story:agent#/definitions/content_scene_input"
+      }
+    }
+  },
+  "display": {
+    "project_path": "story-display",
+    "node_executable": "node",
+    "generate": true
+  },
+  "workflow_objects": {
+    "user_input": {
+      "key": "workflow",
+      "name": "用户输入"
+    },
+    "scene_context": {
+      "key": "workflow",
+      "name": "创作范围"
+    },
+    "director_packet": {
+      "key": "workflow",
+      "name": "导演包"
+    },
+    "dialogue_fragment": {
+      "key": "workflow",
+      "name": "对话片段"
+    },
+    "narrative": {
+      "key": "workflow",
+      "name": "正文"
+    },
+    "author_packet": {
+      "key": "workflow",
+      "name": "作者包"
+    },
+    "display_metadata": {
+      "key": "workflow",
+      "name": "展示元数据"
+    },
+    "director_archive": {
+      "key": "workflow",
+      "name": "归档包"
+    },
+    "scene_attempt": {
+      "key": "workflow",
+      "name": "scene_attempt"
+    },
+    "scene_adoption": {
+      "key": "workflow",
+      "name": "scene_adoption"
+    },
+    "scene_maintenance": {
+      "key": "workflow",
+      "name": "scene_maintenance"
+    },
+    "scene_maintenance_complete": {
+      "key": "workflow",
+      "name": "scene_maintenance_complete"
+    }
+  },
+  "capsule": {
+    "defaults": {
+      "enabled": true,
+      "level_1_events": 10,
+      "level_2_capsules": 5,
+      "level_1_target_characters": 500,
+      "level_2_target_characters": 700
+    },
+    "kinds": {
+      "story_setting": {
+        "enabled": false
+      },
+      "user_input": {
+        "enabled": false
+      }
+    },
+    "max_batches_per_check": 8
+  },
+  "reading": {
+    "prose_page_characters": 5000
+  }
+}

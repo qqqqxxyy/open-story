@@ -1,0 +1,10 @@
+{
+  "operation": "record.update",
+  "params": {
+    "entity": "object",
+    "record_id": "manual-memory-player",
+    "patch": {
+      "name": "示例主角记忆（更名练习）"
+    }
+  }
+}

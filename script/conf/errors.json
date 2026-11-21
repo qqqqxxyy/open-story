@@ -1,0 +1,569 @@
+{
+  "codes": {
+    "ALREADY_EXISTS": {
+      "layers": [
+        "data"
+      ],
+      "log_level": "error",
+      "description": "Operation violates the documented contract or storage requirement."
+    },
+    "BACKEND_UNAVAILABLE": {
+      "layers": [
+        "data"
+      ],
+      "log_level": "error",
+      "description": "File backend is a reserved adapter; use SQLite"
+    },
+    "BRANCH_EXISTS": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Branch already has a head"
+    },
+    "BRANCH_INACTIVE": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Branch has no head"
+    },
+    "CONFIGURATION_ERROR": {
+      "layers": [
+        "cli"
+      ],
+      "log_level": "error",
+      "description": "Script configuration could not be loaded."
+    },
+    "CONFIG_REQUIRED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "This operation requires --config"
+    },
+    "CROSS_BRANCH_REFERENCE": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Cutoff is outside the branch path"
+    },
+    "EXTERNAL_DEPENDENCY": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "External references prevent deletion"
+    },
+    "FORK_AT_LEAF": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Leaf continuation keeps its branch identity"
+    },
+    "HEAD_REQUIRED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Leaf has no branch head"
+    },
+    "IDEMPOTENCY_CONFLICT": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Event identity/content differs"
+    },
+    "IDENTITY_CONFLICT": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Object identity differs"
+    },
+    "IMMUTABLE_FIELD": {
+      "layers": [
+        "data"
+      ],
+      "log_level": "error",
+      "description": "Operation violates the documented contract or storage requirement."
+    },
+    "INVALID_ARGUMENT": {
+      "layers": [
+        "cli"
+      ],
+      "log_level": "error",
+      "description": "命令参数格式、必填项或枚举值不符合CLI约定。"
+    },
+    "INVALID_BRANCH": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Object is not a branch"
+    },
+    "INVALID_CONFIG": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Initialization creates its own config; omit --config"
+    },
+    "INVALID_FIELDS": {
+      "layers": [
+        "data"
+      ],
+      "log_level": "error",
+      "description": "Use documented record fields"
+    },
+    "INVALID_FILTER": {
+      "layers": [
+        "cli",
+        "data"
+      ],
+      "log_level": "error",
+      "description": "Use a documented outer field: FIELD=VALUE"
+    },
+    "INVALID_JSON": {
+      "layers": [
+        "util"
+      ],
+      "log_level": "error",
+      "description": "内容不是合法JSON，或包含不允许的非标准JSON值。"
+    },
+    "INVALID_OWNER": {
+      "layers": [
+        "data"
+      ],
+      "log_level": "error",
+      "description": "node or object required"
+    },
+    "INVALID_RELATION": {
+      "layers": [
+        "data"
+      ],
+      "log_level": "error",
+      "description": "Wrong key type"
+    },
+    "INVALID_ROOT": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Root has no predecessor"
+    },
+    "INVALID_SCHEMA": {
+      "layers": [
+        "util"
+      ],
+      "log_level": "error",
+      "description": "输入或返回结果不符合注册的契约。"
+    },
+    "INVALID_SELECTION": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Select active local content"
+    },
+    "MISSING_OWNERSHIP": {
+      "layers": [
+        "data"
+      ],
+      "log_level": "error",
+      "description": "Create event and ownership in the same transaction"
+    },
+    "NODE_NOT_ACTIVE": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Revise a published node"
+    },
+    "NODE_NOT_WRITABLE": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Node is not writable"
+    },
+    "NOT_FOUND": {
+      "layers": [
+        "data",
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Some deletion records do not exist"
+    },
+    "NOT_IMPLEMENTED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "当前接口仅预留，尚未实现。"
+    },
+    "NOT_LEAF": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Node has successors"
+    },
+    "OPERATION_FAILED": {
+      "layers": [
+        "cli",
+        "util"
+      ],
+      "log_level": "error",
+      "description": "A workflow operation failed without a more specific error code."
+    },
+    "OWNERSHIP_EXISTS": {
+      "layers": [
+        "data"
+      ],
+      "log_level": "error",
+      "description": "An event has exactly one ownership"
+    },
+    "PREDECESSOR_INACTIVE": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Fork from an active node"
+    },
+    "PUBLICATION_INCOMPLETE": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Scene needs all three pointers"
+    },
+    "REFERENCED": {
+      "layers": [
+        "data"
+      ],
+      "log_level": "error",
+      "description": "Remove references before deleting a record"
+    },
+    "RESERVED_RELATION": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Use branch/node workflows for head management; node_branch is removed"
+    },
+    "ROOT_EXISTS": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Story already has a root"
+    },
+    "ROOT_PROTECTED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Keep root"
+    },
+    "RUNTIME_NOT_READY": {
+      "layers": [
+        "util"
+      ],
+      "log_level": "error",
+      "description": "Caller must bootstrap or supply runtime resources before storage/workflow use"
+    },
+    "SAMPLE_AMBIGUOUS": {
+      "layers": [
+        "compat"
+      ],
+      "log_level": "error",
+      "description": "This helper requires a unique first scene directly after root"
+    },
+    "STALE_HEAD": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Continue only at the branch head; use branch.fork"
+    },
+    "STARTUP_FAILED": {
+      "layers": [
+        "cli",
+        "util"
+      ],
+      "log_level": "error",
+      "description": "CLI startup or argument/content loading failed."
+    },
+    "STORAGE_ERROR": {
+      "layers": [
+        "data"
+      ],
+      "log_level": "error",
+      "description": "Operation violates the documented contract or storage requirement."
+    },
+    "STORE_CONFIG_CONFLICT": {
+      "layers": [
+        "data"
+      ],
+      "log_level": "error",
+      "description": "Existing storage configuration differs"
+    },
+    "STORE_MISMATCH": {
+      "layers": [
+        "data"
+      ],
+      "log_level": "error",
+      "description": "Only skill version 6 is supported"
+    },
+    "STORY_EXISTS": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "This story ID already has different initialization content"
+    },
+    "UNKNOWN_OPERATION": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Operation violates the documented contract or storage requirement."
+    },
+    "SCENE_CONTEXT_MISSING": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "缺少创作上下文"
+    },
+    "SOURCE_NOT_VISIBLE": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "来源不可见或不存在"
+    },
+    "SCENE_OPEN": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "已有未完成幕"
+    },
+    "DIALOGUE_CLOSED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "对话已收束"
+    },
+    "TURN_PENDING": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "存在待回应输入"
+    },
+    "PACKET_NOT_FOUND": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "信息包尚未保存"
+    },
+    "USE_DIALOGUE_TURN": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "应使用对话回复入口"
+    },
+    "USE_NORMAL_REPLY": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "应使用普通回复入口"
+    },
+    "TURN_NOT_FOUND": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "对话轮不属于当前幕"
+    },
+    "INVALID_NARRATIVE_REFERENCE": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "正文引用无效"
+    },
+    "DISPLAY_FAILED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "正文已保存但展示失败"
+    },
+    "NARRATIVE_REQUIRED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "需要完整正文"
+    },
+    "DISPLAY_REQUIRED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "需要先保存展示信息"
+    },
+    "INVALID_ENTITY": {
+      "layers": [
+        "data"
+      ],
+      "log_level": "error",
+      "description": "未知的数据实体类型。"
+    },
+    "BRANCH_REQUIRED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "维护共享历史节点需要明确branch-id。"
+    },
+    "ROOT_MISSING": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "故事尚未初始化"
+    },
+    "STORY_ARCHIVED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "先恢复故事再创作"
+    },
+    "BRANCH_CLOSED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "先重新开放分支"
+    },
+    "PACKET_REFERENCE_REQUIRED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "多个导演包时声明真实来源包"
+    },
+    "INVALID_EVENT_ACTION": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Action requires a documented target list or content shape."
+    },
+    "INVALID_EVENT_ACTION_TARGET": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Target must be an earlier visible active append/replace record of the same object."
+    },
+    "CAPSULE_DISABLED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "capsule_mode未开启；普通创作与精确查询仍可使用。"
+    },
+    "CAPSULE_OBJECT_DISABLED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "该对象类别未启用摘要。"
+    },
+    "INVALID_CAPSULE": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "摘要级别、来源、版本接替或覆盖范围不符合契约。"
+    },
+    "USE_CAPSULE_SAVE": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "摘要应由capsule-save生成元信息并批量保存。"
+    },
+    "VERSION_UNSUPPORTED": {
+      "layers": [
+        "data",
+        "util"
+      ],
+      "log_level": "error",
+      "description": "Database release is outside the global skill compatibility range."
+    },
+    "COMPOSITE_IN_BATCH": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Persisted composite stages and reader publication must execute outside batch transactions."
+    },
+    "OUTPUT_WRITE_FAILED": {
+      "layers": [
+        "cli"
+      ],
+      "log_level": "error",
+      "description": "完整响应文件写入失败；不返回转储成功回执。此前业务操作可能已经完成，请先检查其状态。"
+    },
+    "STALE_MANUSCRIPT": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Use the current attempt and author packet."
+    },
+    "MANUSCRIPT_ACCEPTED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Accepted prose requires historical rewrite."
+    },
+    "DRAFT_NOT_ADOPTED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Drafts are excluded from normal creative recall."
+    },
+    "MAINTENANCE_SCOPE": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Maintenance is restricted to an adopted pending manuscript."
+    },
+    "REQUEST_REQUIRED": {
+      "layers": [
+        "workflow"
+      ],
+      "log_level": "error",
+      "description": "Explicit prepare action requires a stable request identity."
+    }
+  }
+}

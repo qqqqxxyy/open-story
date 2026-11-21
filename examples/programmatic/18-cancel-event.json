@@ -1,0 +1,7 @@
+{
+  "operation": "event.cancel",
+  "params": {
+    "event_id": "manual-memory-1",
+    "branch_id": "main"
+  }
+}

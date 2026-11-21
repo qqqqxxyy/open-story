@@ -1,0 +1,6 @@
+{
+  "operation": "branch.read",
+  "params": {
+    "branch_id": "main"
+  }
+}

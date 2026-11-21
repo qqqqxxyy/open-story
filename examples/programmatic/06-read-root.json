@@ -1,0 +1,8 @@
+{
+  "operation": "node.events",
+  "params": {
+    "node_id": "node-root",
+    "limit": 100,
+    "branch_id": "main"
+  }
+}

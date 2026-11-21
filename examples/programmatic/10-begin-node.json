@@ -1,0 +1,8 @@
+{
+  "operation": "node.begin",
+  "params": {
+    "node_id": "manual-node-2",
+    "predecessor_id": "node-788a1143fc394b6d9d0e574342f9b3e1",
+    "branch_id": "main"
+  }
+}

@@ -1,0 +1,3 @@
+jsonschema>=4.18,<5
+referencing>=0.30,<1
+filelock==4.0.12

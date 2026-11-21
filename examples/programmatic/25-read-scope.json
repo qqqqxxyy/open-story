@@ -1,0 +1,6 @@
+{
+  "operation": "branch.scope",
+  "params": {
+    "branch_id": "main"
+  }
+}

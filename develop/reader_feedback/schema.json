@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Story branch reader feedback",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "story_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+    },
+    "branch_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+    },
+    "feedbacks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/feedback_record"
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "story_id",
+    "branch_id",
+    "feedbacks"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "feedback_record": {
+      "title": "Reader feedback record",
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "feedback_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "story_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+        },
+        "branch_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+        },
+        "node_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+        },
+        "score": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 10
+        },
+        "comment": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_version": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "narrative_event_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "narrative_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false
+        },
+        "extra": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "schema_version",
+        "feedback_id",
+        "recorded_at",
+        "story_id",
+        "branch_id",
+        "node_id",
+        "score",
+        "comment",
+        "source_version",
+        "extra"
+      ],
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "properties": {
+            "score": {
+              "type": "number"
+            }
+          }
+        },
+        {
+          "properties": {
+            "comment": {
+              "type": "string",
+              "pattern": "\\S"
+            }
+          }
+        }
+      ]
+    },
+    "data_directory": {
+      "type": "string",
+      "default": "data"
+    },
+    "query_limit": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 100
+    }
+  }
+}

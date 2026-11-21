@@ -1,0 +1,7 @@
+{
+  "story_id": "example-story",
+  "max_fact_topics": 20,
+  "fact_topics": [],
+  "archive_fact_ids": [],
+  "strip_node_metadata_fields": []
+}

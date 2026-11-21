@@ -1,0 +1,9 @@
+{
+  "operation": "branch.fork",
+  "params": {
+    "branch_id": "manual-alternative",
+    "name": "人工另一条世界线",
+    "from_node_id": "node-root",
+    "node_id": "manual-fork-1"
+  }
+}
